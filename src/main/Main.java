@@ -36,7 +36,7 @@ public class Main {
         // }
         // System.out.println("Total suppliers: " + central.getSuppliers().size());
 
-        central.addSupplier(supplier3);
+        central.removeStock(central.getStockByID(1));
 
         CentralData.store(central);
     }

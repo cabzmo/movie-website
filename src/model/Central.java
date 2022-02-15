@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+import main.CentralException;
+
 public class Central {
 
     private final ArrayList<Stock> stocks = new ArrayList<Stock>();
@@ -24,8 +26,24 @@ public class Central {
         return null;
     }
 
+    public void removeStock(Stock stock) throws CentralException {
+        if (this.stocks.contains(stock)) {
+            this.stocks.remove(stock);
+        } else {
+            throw new CentralException("Stock ID: " + stock.getID() + " does not exist in this system");
+        }
+    }
+
     public void addSupplier(Supplier supplier) {
         this.suppliers.add(supplier);
+    }
+
+    public void removeSupplier(Supplier supplier) throws CentralException {
+        if (this.suppliers.contains(supplier)) {
+            this.suppliers.remove(supplier);
+        } else {
+            throw new CentralException("Supplier ID: " + supplier.getID() + " does not exist in this system");
+        }
     }
 
     public ArrayList<Supplier> getSuppliers() {

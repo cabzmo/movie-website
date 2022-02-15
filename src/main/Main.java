@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import data.CentralData;
 import model.Central;
+import model.Customer;
 import model.Stock;
 import model.Supplier;
 
@@ -18,16 +19,16 @@ public class Main {
         // }
         // System.out.println("Total products: " + central.getStocks().size());
 
-        Stock stock1 = new Stock(1, "Mars", 5);
-        Stock stock2 = new Stock(2, "Snickers", 10);
-        Stock stock3 = new Stock(3, "Bounty", 15);
-        Stock stock4 = new Stock(4, "Lion", 20);
-        Stock stock5 = new Stock(5, "Galaxy", 25);
-        Supplier supplier3 = new Supplier(3, "Supplier3");
+        // Stock stock1 = new Stock(1, "Mars", 5);
+        // Stock stock2 = new Stock(2, "Snickers", 10);
+        // Stock stock3 = new Stock(3, "Bounty", 15);
+        // Stock stock4 = new Stock(4, "Lion", 20);
+        // Stock stock5 = new Stock(5, "Galaxy", 25);
+        // Supplier supplier3 = new Supplier(3, "Supplier3");
 
-        supplier3.addSuppliedStock(stock1);
+        // supplier3.addSuppliedStock(stock1);
         // supplier3.addSuppliedStock(stock2);
-        supplier3.addSuppliedStock(stock3);
+        // supplier3.addSuppliedStock(stock3);
         // supplier.removeSuppliedStock(stock4);
         // System.out.println(supplier);
 
@@ -36,7 +37,7 @@ public class Main {
         // }
         // System.out.println("Total suppliers: " + central.getSuppliers().size());
 
-        central.removeStock(central.getStockByID(1));
+        // central.removeStock(central.getStockByID(1));
 
         CentralData.store(central);
     }

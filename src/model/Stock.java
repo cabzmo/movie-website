@@ -5,6 +5,15 @@ public class Stock {
     private int id;
     private String name;
     private int inventory;
+    private int amountInBatch;
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Stock(int id, String name, int inventory) {
         this.id = id;
@@ -42,6 +51,14 @@ public class Stock {
 
     public void removeFromInventory(int amount) {
         this.inventory = inventory - amount;
+    }
+
+    public int getAmountInBatch() {
+        return this.amountInBatch;
+    }
+
+    public void setAmountInBatch(int amountInBatch) {
+        this.amountInBatch = amountInBatch;
     }
 
     @Override

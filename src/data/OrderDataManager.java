@@ -28,9 +28,17 @@ public class OrderDataManager implements DataManager {
                     int customerID = Integer.parseInt(properties[1]);
                     int stockID = Integer.parseInt(properties[2]);
                     int amount = Integer.parseInt(properties[3]);
+                    String stringDelivered = properties[4];
+                    boolean delivered;
+                    if (stringDelivered.equals("false")) {
+                        delivered = false;
+                    } else {
+                        delivered = true;
+                    }
+
                     Customer customer = central.getCustomerByID(customerID);
                     Stock stock = central.getStockByID(stockID);
-                    Order order = new Order(id, customer, stock, amount);
+                    Order order = new Order(id, customer, stock, amount, delivered);
                     central.addOrder(order);
                 } catch (NumberFormatException ex) {
                     throw new CentralException("Unable to parse order id " + properties[0] + " on line " + line_idx
@@ -49,6 +57,7 @@ public class OrderDataManager implements DataManager {
                 out.print(order.getCustomer().getID() + SEPARATOR);
                 out.print(order.getStock().getID() + SEPARATOR);
                 out.print(order.getAmount() + SEPARATOR);
+                out.print(order.getDelivered() + SEPARATOR);
                 out.println();
             }
         }

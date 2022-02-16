@@ -41,9 +41,9 @@ public class Main {
         // central.removeStock(central.getStockByID(1));
 
         // Order order1 = new Order(1, central.getCustomerByID(1),
-        // central.getStockByID(1), 2);
+        // central.getStockByID(1), 2, false);
         // Order order2 = new Order(2, central.getCustomerByID(2),
-        // central.getStockByID(2), 4);
+        // central.getStockByID(2), 4, true);
 
         // central.addOrder(order1);
         // central.addOrder(order2);

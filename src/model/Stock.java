@@ -7,14 +7,6 @@ public class Stock {
     private int inventory;
     private int amountInBatch;
 
-    public int getId() {
-        return this.id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Stock(int id, String name, int inventory) {
         this.id = id;
         this.name = name;

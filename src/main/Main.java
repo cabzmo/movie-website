@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import data.CentralData;
 import model.Central;
 import model.Customer;
+import model.Order;
 import model.Stock;
 import model.Supplier;
 
@@ -38,6 +39,17 @@ public class Main {
         // System.out.println("Total suppliers: " + central.getSuppliers().size());
 
         // central.removeStock(central.getStockByID(1));
+
+        // Order order1 = new Order(1, central.getCustomerByID(1),
+        // central.getStockByID(1), 2);
+        // Order order2 = new Order(2, central.getCustomerByID(2),
+        // central.getStockByID(2), 4);
+
+        // central.addOrder(order1);
+        // central.addOrder(order2);
+
+        // central.removeOrder(central.getOrderByID(1));
+        // central.removeOrder(central.getOrderByID(2));
 
         CentralData.store(central);
     }

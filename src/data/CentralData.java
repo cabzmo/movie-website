@@ -15,6 +15,7 @@ public class CentralData {
         dataManagers.add(new StockDataManager());
         dataManagers.add(new SupplierDataManager());
         dataManagers.add(new CustomerDataManager());
+        dataManagers.add(new OrderDataManager());
     }
 
     public static Central load() throws CentralException, IOException {

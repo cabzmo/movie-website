@@ -64,4 +64,10 @@ public class Order {
         this.delivered = true;
     }
 
+    @Override
+    public String toString() {
+        return "Order ID: " + this.id + " Customer: " + this.customer.getID() + " Stock: " + this.stock + " Amount: "
+                + this.amount;
+    }
+
 }

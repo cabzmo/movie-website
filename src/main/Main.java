@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import commands.MakeOrder;
 import data.CentralData;
 import model.Central;
 import model.Customer;
@@ -50,6 +51,21 @@ public class Main {
 
         // central.removeOrder(central.getOrderByID(1));
         // central.removeOrder(central.getOrderByID(2));
+
+        new MakeOrder(central.getCustomerByID(1), central.getStockByID(1),
+                2).execute(central);
+        new MakeOrder(central.getCustomerByID(2), central.getStockByID(2),
+                4).execute(central);
+
+        System.out.println(central.getOrderByID(1));
+        System.out.println();
+        System.out.println(central.getCustomerByID(1));
+        System.out.println();
+        System.out.println(central.getCustomerByID(2));
+        System.out.println();
+        System.out.println(central.getStockByID(1));
+        System.out.println();
+        System.out.println(central.getStockByID(2));
 
         CentralData.store(central);
     }

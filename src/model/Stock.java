@@ -1,11 +1,16 @@
 package model;
 
+import java.util.ArrayList;
+
+import main.CentralException;
+
 public class Stock {
 
     private int id;
     private String name;
     private int inventory;
     private int amountInBatch;
+    private ArrayList<Order> orders = new ArrayList<Order>();
 
     public Stock(int id, String name, int inventory) {
         this.id = id;
@@ -59,6 +64,29 @@ public class Stock {
 
     public void addSupplierBatch(int multiplier) {
         this.inventory = this.inventory + (this.amountInBatch * multiplier);
+    }
+
+    public void addOrder(Order order) {
+        this.orders.add(order);
+    }
+
+    public void removeOrder(Order order) throws CentralException {
+        if (!this.orders.contains(order)) {
+            throw new CentralException("Order " + order.getID() + " does not require this stock");
+        }
+        this.orders.remove(order);
+    }
+
+    public boolean checkOrder(Order order) {
+        if (this.orders.contains(order)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public ArrayList<Order> getOrders() {
+        return this.orders;
     }
 
     @Override

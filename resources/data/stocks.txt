@@ -1,4 +1,4 @@
-1::Mars::5::
-2::Snickers::10::
+1::Mars::3::
+2::Snickers::6::
 3::Bounty::15::
 4::Lion::20::

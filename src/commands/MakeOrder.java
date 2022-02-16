@@ -26,7 +26,11 @@ public class MakeOrder implements Command {
             maxOrderID = central.getOrders().get(lastIndex).getID();
         }
 
+        if (stock.getInventory() < amount) {
+            throw new CentralException("Not enough stock of " + stock.getName() + " to complete order");
+        }
         Order order = new Order(++maxOrderID, customer, stock, amount);
+        stock.removeFromInventory(amount);
         central.addOrder(order);
 
     }

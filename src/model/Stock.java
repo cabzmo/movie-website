@@ -53,6 +53,14 @@ public class Stock {
         this.amountInBatch = amountInBatch;
     }
 
+    public void addSupplierBatch() {
+        this.inventory = this.inventory + this.amountInBatch;
+    }
+
+    public void addSupplierBatch(int multiplier) {
+        this.inventory = this.inventory + (this.amountInBatch * multiplier);
+    }
+
     @Override
     public String toString() {
         return "Stock ID " + this.id + ": " + this.name + "\nInventory: " + this.inventory;

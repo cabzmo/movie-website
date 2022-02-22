@@ -39,6 +39,8 @@ public class OrderDataManager implements DataManager {
                     Customer customer = central.getCustomerByID(customerID);
                     Stock stock = central.getStockByID(stockID);
                     Order order = new Order(id, customer, stock, amount, delivered);
+                    customer.addOrder(order);
+                    stock.addOrder(order);
                     central.addOrder(order);
                 } catch (NumberFormatException ex) {
                     throw new CentralException("Unable to parse order id " + properties[0] + " on line " + line_idx

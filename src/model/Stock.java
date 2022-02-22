@@ -50,6 +50,14 @@ public class Stock {
         this.inventory = inventory - amount;
     }
 
+    public int getInventoryBeforeOrders() {
+        int inventory = this.inventory;
+        for (Order order : orders) {
+            inventory += order.getAmount();
+        }
+        return inventory;
+    }
+
     public int getAmountInBatch() {
         return this.amountInBatch;
     }
@@ -91,6 +99,14 @@ public class Stock {
 
     @Override
     public String toString() {
-        return "Stock ID " + this.id + ": " + this.name + "\nInventory: " + this.inventory;
+        String msg = "";
+        msg += "Stock ID " + this.id + ": " + this.name + "\nInventory: " + this.inventory + "\nOld Inventory: "
+                + this.getInventoryBeforeOrders() + "\nOrders: ";
+
+        for (Order order : this.orders) {
+            msg += order.getID() + ", ";
+        }
+        msg = msg.substring(0, msg.length() - 2);
+        return msg;
     }
 }

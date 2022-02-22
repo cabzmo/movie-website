@@ -27,13 +27,16 @@ public class SupplierDataManager implements DataManager {
                     int id = Integer.parseInt(properties[0]);
                     String name = properties[1];
 
-                    String numWithCommas = properties[2].substring(1, properties[2].length() - 1);
-                    String[] stringSuppliedStocks = numWithCommas.split(",", -1);
-
                     ArrayList<Stock> stockIDs = new ArrayList<Stock>();
-                    for (String stringStockID : stringSuppliedStocks) {
-                        int stockID = Integer.parseInt(stringStockID);
-                        stockIDs.add(central.getStockByID(stockID));
+                    if (!properties[2].equals("[]")) {
+
+                        String numWithCommas = properties[2].substring(1, properties[2].length() - 1);
+                        String[] stringSuppliedStocks = numWithCommas.split(",", -1);
+
+                        for (String stringStockID : stringSuppliedStocks) {
+                            int stockID = Integer.parseInt(stringStockID);
+                            stockIDs.add(central.getStockByID(stockID));
+                        }
                     }
 
                     Supplier supplier = new Supplier(id, name, stockIDs);
@@ -51,16 +54,23 @@ public class SupplierDataManager implements DataManager {
     public void storeData(Central central) throws IOException {
         try (PrintWriter out = new PrintWriter(new FileWriter(RESOURCE))) {
             for (Supplier supplier : central.getSuppliers()) {
-                out.print(supplier.getID() + SEPARATOR);
-                out.print(supplier.getName() + SEPARATOR);
-                String arrayString = "[";
-                for (Stock stock : supplier.getSuppliedStocks()) {
-                    arrayString += stock.getID() + ",";
+                try {
+                    out.print(supplier.getID() + SEPARATOR);
+                    out.print(supplier.getName() + SEPARATOR);
+                    String arrayString = "[";
+                    if (supplier.getSuppliedStocks().size() > 0) {
+                        for (Stock stock : supplier.getSuppliedStocks()) {
+                            arrayString += stock.getID() + ",";
+                        }
+                        arrayString = arrayString.substring(0, arrayString.length() - 2);
+                    }
+                    arrayString += "]" + SEPARATOR;
+                    out.print(arrayString);
+                    out.println();
+
+                } catch (Exception e) {
+                    System.out.println("Unable to store supplier id " + supplier.getID() + "+ \nError: " + e);
                 }
-                arrayString = arrayString.substring(0, arrayString.length() - 1);
-                arrayString += "]" + SEPARATOR;
-                out.print(arrayString);
-                out.println();
             }
         }
     }

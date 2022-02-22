@@ -9,6 +9,7 @@ import java.util.Scanner;
 import main.CentralException;
 import model.Central;
 import model.Customer;
+import model.Order;
 import model.Stock;
 
 public class CustomerDataManager implements DataManager {
@@ -44,6 +45,16 @@ public class CustomerDataManager implements DataManager {
                 out.print(customer.getID() + SEPARATOR);
                 out.print(customer.getName() + SEPARATOR);
                 out.print(customer.getPhone() + SEPARATOR);
+                String msg = "";
+                msg += "[";
+                if (central.getCustomersOrders(customer.getID()).size() > 0) {
+                    for (Order order : central.getCustomersOrders(customer.getID())) {
+                        msg += order.getID() + ",";
+                    }
+                    msg = msg.substring(0, msg.length() - 1);
+                }
+                msg += "]" + SEPARATOR;
+                out.print(msg);
                 out.println();
             }
         }

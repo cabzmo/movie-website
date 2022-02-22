@@ -1,5 +1,5 @@
 Need to do:
 
-    - edit customer and stock to reference orders
+    - edit customer and stock to reference orders [DONE]
     - customer needs to have an order history similar to statusHistory in RepairTicket
     - new Command to complete delivery of order

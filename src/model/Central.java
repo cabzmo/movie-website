@@ -110,4 +110,16 @@ public class Central {
         }
         return null;
     }
+
+    public ArrayList<Order> getCustomersOrders(int customerID) {
+        ArrayList<Order> customersOrders = new ArrayList<Order>();
+        for (Order order : orders) {
+            // System.out.println(order.getCustomer().getID() + customerID);
+            if (order.getCustomer().getID() == customerID) {
+                customersOrders.add(order);
+            }
+        }
+        // System.out.println("Customer ID: " + customerID + "\nOrders: " + orders);
+        return orders;
+    }
 }

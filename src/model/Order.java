@@ -66,7 +66,8 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order ID: " + this.id + " Customer: " + this.customer.getID() + " Stock: " + this.stock + " Amount: "
+        return "Order ID: " + this.id + " Customer: " + this.customer.getID() + " Stock: " + this.stock.getID()
+                + " Amount: "
                 + this.amount;
     }
 

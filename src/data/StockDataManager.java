@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 import main.CentralException;
 import model.Central;
+import model.Order;
 import model.Stock;
 
 public class StockDataManager implements DataManager {
@@ -43,6 +44,16 @@ public class StockDataManager implements DataManager {
                 out.print(stock.getID() + SEPARATOR);
                 out.print(stock.getName() + SEPARATOR);
                 out.print(stock.getInventory() + SEPARATOR);
+                String msg = "";
+                msg += "[";
+                if (stock.getOrders().size() > 0) {
+                    for (Order order : stock.getOrders()) {
+                        msg += order.getID() + ",";
+                    }
+                    msg = msg.substring(0, msg.length() - 2);
+                }
+                msg += "]" + SEPARATOR;
+                out.print(msg);
                 out.println();
             }
         }

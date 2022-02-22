@@ -69,8 +69,9 @@ public class Customer {
         String msg = "";
         msg += "Customer ID: " + this.id + " Name: " + this.name + " Phone: " + this.phone + "\nOrders: ";
         for (Order order : this.orders) {
-            msg += order.toString();
+            msg += order.toString() + " | ";
         }
+        msg = msg.substring(0, msg.length() - 3);
         return msg;
     }
 }

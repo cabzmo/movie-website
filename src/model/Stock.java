@@ -97,16 +97,36 @@ public class Stock {
         return this.orders;
     }
 
+    public ArrayList<Order> getAwaitingOrders() {
+        ArrayList<Order> awaitingOrders = new ArrayList<Order>();
+        for (Order order : orders) {
+            if (!order.getDelivered()) {
+                awaitingOrders.add(order);
+            }
+        }
+        return awaitingOrders;
+    }
+
+    public ArrayList<Order> getCompleteOrders() {
+        ArrayList<Order> completedOrders = new ArrayList<Order>();
+        for (Order order : orders) {
+            if (order.getDelivered()) {
+                completedOrders.add(order);
+            }
+        }
+        return completedOrders;
+    }
+
     @Override
     public String toString() {
         String msg = "";
         msg += "Stock ID " + this.id + ": " + this.name + "\nInventory: " + this.inventory + "\nOld Inventory: "
-                + this.getInventoryBeforeOrders() + "\nOrders: ";
-
+                + this.getInventoryBeforeOrders() + "\nOrders: [";
         for (Order order : this.orders) {
             msg += order.getID() + ", ";
         }
         msg = msg.substring(0, msg.length() - 2);
+        msg += "]";
         return msg;
     }
 }

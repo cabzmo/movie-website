@@ -74,6 +74,7 @@ public class Main {
                 System.out.println();
                 System.out.println(central.getOrderByID(2));
                 System.out.println();
+                // central.getOrderByID(3).setDelivered();
                 System.out.println(central.getOrderByID(3));
                 System.out.println();
                 System.out.println(central.getCustomerByID(1));
@@ -87,5 +88,6 @@ public class Main {
                 System.out.println(central.getStockByID(3));
 
                 CentralData.store(central);
+
         }
 }

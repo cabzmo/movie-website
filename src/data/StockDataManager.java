@@ -50,7 +50,7 @@ public class StockDataManager implements DataManager {
                     for (Order order : stock.getOrders()) {
                         msg += order.getID() + ",";
                     }
-                    msg = msg.substring(0, msg.length() - 2);
+                    msg = msg.substring(0, msg.length() - 1);
                 }
                 msg += "]" + SEPARATOR;
                 out.print(msg);

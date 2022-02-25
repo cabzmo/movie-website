@@ -3,8 +3,10 @@ package main;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import commands.AddStock;
 import commands.CompleteOrder;
 import commands.MakeOrder;
+import commands.RemoveStock;
 import data.CentralData;
 import model.Central;
 import model.Customer;
@@ -71,22 +73,37 @@ public class Main {
                 // new MakeOrder(central.getCustomerByID(1), central.getStockByID(3),
                 // 2).execute(central);
 
-                System.out.println(central.getOrderByID(1));
-                System.out.println();
-                System.out.println(central.getOrderByID(2));
-                System.out.println();
+                // System.out.println(central.getOrderByID(1));
+                // System.out.println();
+                // System.out.println(central.getOrderByID(2));
+                // System.out.println();
+                // // new CompleteOrder(central.getOrderByID(3)).execute(central);
+                // System.out.println(central.getOrderByID(3));
+                // System.out.println();
+                // System.out.println(central.getCustomerByID(1));
+                // System.out.println();
+                // System.out.println(central.getCustomerByID(2));
+                // System.out.println();
+                // System.out.println(central.getStockByID(1));
+                // System.out.println();
+                // System.out.println(central.getStockByID(2));
+                // System.out.println();
+                // System.out.println(central.getStockByID(3));
+
+                // System.out.println(central.getOrders());
                 // new CompleteOrder(central.getOrderByID(3)).execute(central);
-                System.out.println(central.getOrderByID(3));
-                System.out.println();
-                System.out.println(central.getCustomerByID(1));
-                System.out.println();
-                System.out.println(central.getCustomerByID(2));
-                System.out.println();
-                System.out.println(central.getStockByID(1));
-                System.out.println();
-                System.out.println(central.getStockByID(2));
-                System.out.println();
-                System.out.println(central.getStockByID(3));
+                // ;
+                // System.out.println(central.getOrders());
+
+                System.out.println(central.getStocks() + "\n");
+                // new AddStock("Mars", 12).execute(central);
+                // ;
+                // new AddStock("newStock", 12).execute(central);
+                // new RemoveStock("Find Stock").execute(central);
+                // ;
+                // new RemoveStock("newStock").execute(central);
+                // ;
+                System.out.println(central.getStocks());
 
                 CentralData.store(central);
 

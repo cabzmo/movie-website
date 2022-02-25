@@ -2,4 +2,14 @@ Need to do:
 
     - edit customer and stock to reference orders [DONE]
     - customer needs to have an order history similar to statusHistory in RepairTicket [DONE]
-    - new Command to complete delivery of order
+    - new Command to complete delivery of order [DONE]
+    - Commands:
+        - AddStock [DONE]
+        - RemoveStock [DONE]
+        - AddSupplier
+        - RemoveSupplier
+        - AddCustomer
+        - RemoveCustomer
+        - MakeOrder [DONE]
+        - CompleteOrder [DONE]
+        - RemoveOrder

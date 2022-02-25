@@ -122,10 +122,12 @@ public class Stock {
         String msg = "";
         msg += "Stock ID " + this.id + ": " + this.name + "\nInventory: " + this.inventory + "\nOld Inventory: "
                 + this.getInventoryBeforeOrders() + "\nOrders: [";
-        for (Order order : this.orders) {
-            msg += order.getID() + ", ";
+        if (orders.size() != 0) {
+            for (Order order : this.orders) {
+                msg += order.getID() + ", ";
+            }
+            msg = msg.substring(0, msg.length() - 2);
         }
-        msg = msg.substring(0, msg.length() - 2);
         msg += "]";
         return msg;
     }

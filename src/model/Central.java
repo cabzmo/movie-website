@@ -36,6 +36,15 @@ public class Central {
         return null;
     }
 
+    public Stock getStockByName(String stockName) {
+        for (Stock stock : stocks) {
+            if (stock.getName().equals(stockName)) {
+                return stock;
+            }
+        }
+        return null;
+    }
+
     public void addSupplier(Supplier supplier) {
         this.suppliers.add(supplier);
     }

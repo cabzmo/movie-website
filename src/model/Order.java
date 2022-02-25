@@ -12,6 +12,8 @@ public class Order {
     private int amount;
     private boolean delivered;
     private LocalDateTime deliveredWhen;
+    private boolean returned;
+    private LocalDateTime returnedWhen;
 
     public Order(int id, Customer customer, Stock stock, int amount) {
         this.id = id;
@@ -19,9 +21,11 @@ public class Order {
         this.stock = stock;
         this.amount = amount;
         this.delivered = false;
+        this.returned = false;
     }
 
-    public Order(int id, Customer customer, Stock stock, int amount, boolean delivered, String deliveredWhen) {
+    public Order(int id, Customer customer, Stock stock, int amount, boolean delivered, String deliveredWhen,
+            boolean returned, String returnedWhen) {
         this.id = id;
         this.customer = customer;
         this.stock = stock;
@@ -32,6 +36,13 @@ public class Order {
         } else {
             System.out.println("deliveredWhen: " + deliveredWhen);
             this.deliveredWhen = parseDeliveredWhenString(deliveredWhen);
+        }
+        this.returned = returned;
+        if (returnedWhen.equals("null")) {
+            this.returnedWhen = null;
+        } else {
+            System.out.println("returnedWhen: " + returnedWhen);
+            this.returnedWhen = parseDeliveredWhenString(returnedWhen);
         }
     }
 
@@ -117,6 +128,37 @@ public class Order {
         }
     }
 
+    public boolean getReturned() {
+        return this.returned;
+    }
+
+    public void setReturned() {
+        this.delivered = true;
+        this.deliveredWhen = LocalDateTime.now();
+    }
+
+    public void setReturned(String returnedWhen) {
+        this.returned = true;
+        this.returnedWhen = parseDeliveredWhenString(returnedWhen);
+    }
+
+    public LocalDateTime getReturnedWhen() {
+        return this.returnedWhen;
+    }
+
+    public String getReturnedWhenString() {
+        if (this.returnedWhen == null) {
+            return null;
+        } else {
+            return this.returnedWhen.getDayOfMonth() + "/"
+                    + this.returnedWhen.getMonthValue() + "/"
+                    + this.returnedWhen.getYear() + " "
+                    + this.returnedWhen.getHour() + ":"
+                    + this.returnedWhen.getMinute() + ":"
+                    + this.returnedWhen.getSecond();
+        }
+    }
+
     @Override
     public String toString() {
         String msg = "Order ID: " + this.id + " Customer: " + this.customer.getID() + " Stock: " + this.stock.getID()
@@ -126,6 +168,11 @@ public class Order {
                 + this.delivered;
         if (deliveredWhen != null) {
             msg += " When: " + getDeliveredWhenString();
+        }
+        msg += " Returned: "
+                + this.returned;
+        if (returnedWhen != null) {
+            msg += " When: " + getReturnedWhenString();
         }
         return msg;
     }

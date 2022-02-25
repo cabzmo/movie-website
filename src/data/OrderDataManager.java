@@ -36,10 +36,19 @@ public class OrderDataManager implements DataManager {
                         delivered = true;
                     }
                     String deliveredWhen = properties[5];
+                    String stringReturned = properties[6];
+                    boolean returned;
+                    if (stringReturned.equals("false")) {
+                        returned = false;
+                    } else {
+                        returned = true;
+                    }
+                    String returnedWhen = properties[7];
 
                     Customer customer = central.getCustomerByID(customerID);
                     Stock stock = central.getStockByID(stockID);
-                    Order order = new Order(id, customer, stock, amount, delivered, deliveredWhen);
+                    Order order = new Order(id, customer, stock, amount, delivered, deliveredWhen, returned,
+                            returnedWhen);
                     customer.addOrder(order);
                     stock.addOrder(order);
                     central.addOrder(order);
@@ -63,6 +72,12 @@ public class OrderDataManager implements DataManager {
                 out.print(order.getDelivered() + SEPARATOR);
                 if (order.getDeliveredWhenString() != null) {
                     out.print(order.getDeliveredWhenString() + SEPARATOR);
+                } else {
+                    out.print("null" + SEPARATOR);
+                }
+                out.print(order.getReturned() + SEPARATOR);
+                if (order.getReturnedWhenString() != null) {
+                    out.print(order.getReturnedWhenString() + SEPARATOR);
                 } else {
                     out.print("null" + SEPARATOR);
                 }

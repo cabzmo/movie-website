@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import commands.CompleteOrder;
 import commands.MakeOrder;
 import data.CentralData;
 import model.Central;
@@ -74,7 +75,7 @@ public class Main {
                 System.out.println();
                 System.out.println(central.getOrderByID(2));
                 System.out.println();
-                // central.getOrderByID(3).setDelivered();
+                // new CompleteOrder(central.getOrderByID(3)).execute(central);
                 System.out.println(central.getOrderByID(3));
                 System.out.println();
                 System.out.println(central.getCustomerByID(1));

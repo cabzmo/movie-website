@@ -87,9 +87,9 @@ public class Customer {
     @Override
     public String toString() {
         String msg = "";
-        msg += "Customer ID: " + this.id + " Name: " + this.name + " Phone: " + this.phone + "\nOrders: [";
+        msg += "Customer ID: " + this.id + "\t\tName: " + this.name + "\t\tPhone: " + this.phone + "\t\tOrders: [";
         for (Order order : this.orders) {
-            msg += order.toString() + ", ";
+            msg += order.getID() + ", ";
         }
         msg = msg.substring(0, msg.length() - 2);
         msg += "]";

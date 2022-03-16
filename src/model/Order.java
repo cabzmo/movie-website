@@ -133,8 +133,8 @@ public class Order {
     }
 
     public void setReturned() {
-        this.delivered = true;
-        this.deliveredWhen = LocalDateTime.now();
+        this.returned = true;
+        this.returnedWhen = LocalDateTime.now();
     }
 
     public void setReturned(String returnedWhen) {

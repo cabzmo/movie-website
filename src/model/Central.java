@@ -27,22 +27,22 @@ public class Central {
         return this.stocks;
     }
 
-    public Stock getStockByID(int stockID) {
+    public Stock getStockByID(int stockID) throws CentralException {
         for (Stock stock : stocks) {
             if (stock.getID() == stockID) {
                 return stock;
             }
         }
-        return null;
+        throw new CentralException("No stock with that ID.");
     }
 
-    public Stock getStockByName(String stockName) {
+    public Stock getStockByName(String stockName) throws CentralException {
         for (Stock stock : stocks) {
             if (stock.getName().equals(stockName)) {
                 return stock;
             }
         }
-        return null;
+        throw new CentralException("No stock with that Name.");
     }
 
     public void addSupplier(Supplier supplier) {
@@ -61,13 +61,13 @@ public class Central {
         return this.suppliers;
     }
 
-    public Supplier getSupplierByID(int supplierID) {
+    public Supplier getSupplierByID(int supplierID) throws CentralException {
         for (Supplier supplier : suppliers) {
             if (supplier.getID() == supplierID) {
                 return supplier;
             }
         }
-        return null;
+        throw new CentralException("No supplier with that ID.");
     }
 
     public void addCustomer(Customer customer) {
@@ -86,13 +86,22 @@ public class Central {
         return this.customers;
     }
 
-    public Customer getCustomerByID(int customerID) {
+    public Customer getCustomerByID(int customerID) throws CentralException {
         for (Customer customer : customers) {
             if (customer.getID() == customerID) {
                 return customer;
             }
         }
-        return null;
+        throw new CentralException("No customer with that ID.");
+    }
+
+    public Customer getCustomerByName(String customerName) throws CentralException {
+        for (Customer customer : customers) {
+            if (customer.getName() == customerName) {
+                return customer;
+            }
+        }
+        throw new CentralException("No customer with that name.");
     }
 
     public void addOrder(Order order) {
@@ -111,16 +120,16 @@ public class Central {
         return this.orders;
     }
 
-    public Order getOrderByID(int orderID) {
+    public Order getOrderByID(int orderID) throws CentralException {
         for (Order order : orders) {
             if (order.getID() == orderID) {
                 return order;
             }
         }
-        return null;
+        throw new CentralException("No order with that ID.");
     }
 
-    public ArrayList<Order> getCustomersOrders(int customerID) {
+    public ArrayList<Order> getCustomersOrders(int customerID) throws CentralException {
         // ArrayList<Order> customersOrders = new ArrayList<Order>();
         // for (Order order : orders) {
         // // System.out.println(order.getCustomer().getID() + customerID);

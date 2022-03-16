@@ -40,6 +40,9 @@ public class SupplierDataManager implements DataManager {
                     }
 
                     Supplier supplier = new Supplier(id, name, stockIDs);
+                    for (Stock stock : stockIDs) {
+                        stock.setSupplier(supplier);
+                    }
                     central.addSupplier(supplier);
                 } catch (NumberFormatException ex) {
                     throw new CentralException("Unable to parse supplier id " + properties[0] + " on line " + line_idx
@@ -62,7 +65,7 @@ public class SupplierDataManager implements DataManager {
                         for (Stock stock : supplier.getSuppliedStocks()) {
                             arrayString += stock.getID() + ",";
                         }
-                        arrayString = arrayString.substring(0, arrayString.length() - 2);
+                        arrayString = arrayString.substring(0, arrayString.length() - 1);
                     }
                     arrayString += "]" + SEPARATOR;
                     out.print(arrayString);

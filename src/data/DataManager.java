@@ -11,5 +11,5 @@ public interface DataManager {
 
     public void loadData(Central central) throws IOException, CentralException;
 
-    public void storeData(Central central) throws IOException;
+    public void storeData(Central central) throws IOException, CentralException;
 }

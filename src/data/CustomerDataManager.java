@@ -39,7 +39,7 @@ public class CustomerDataManager implements DataManager {
     }
 
     @Override
-    public void storeData(Central central) throws IOException {
+    public void storeData(Central central) throws IOException, CentralException {
         try (PrintWriter out = new PrintWriter(new FileWriter(RESOURCE))) {
             for (Customer customer : central.getCustomers()) {
                 out.print(customer.getID() + SEPARATOR);

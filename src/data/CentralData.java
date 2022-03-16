@@ -27,7 +27,7 @@ public class CentralData {
         return central;
     }
 
-    public static void store(Central central) throws IOException {
+    public static void store(Central central) throws IOException, CentralException {
 
         for (DataManager dm : dataManagers) {
             dm.storeData(central);

@@ -11,6 +11,7 @@ public class Stock {
     private int inventory;
     private int amountInBatch;
     private ArrayList<Order> orders = new ArrayList<Order>();
+    private Supplier supplier;
 
     public Stock(int id, String name, int inventory) {
         this.id = id;
@@ -117,11 +118,19 @@ public class Stock {
         return completedOrders;
     }
 
+    public Supplier getSupplier() {
+        return this.supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
     @Override
     public String toString() {
         String msg = "";
-        msg += "Stock ID " + this.id + ": " + this.name + "\nInventory: " + this.inventory + "\nOld Inventory: "
-                + this.getInventoryBeforeOrders() + "\nOrders: [";
+        msg += "Stock ID " + this.id + ": " + this.name + "\t\tInventory: " + this.inventory + "\t\tOld Inventory: "
+                + this.getInventoryBeforeOrders() + "\t\tOrders: [";
         if (orders.size() != 0) {
             for (Order order : this.orders) {
                 msg += order.getID() + ", ";

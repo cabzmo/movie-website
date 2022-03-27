@@ -70,6 +70,15 @@ public class Central {
         throw new CentralException("No supplier with that ID.");
     }
 
+    public Supplier getSupplierByName(String supplierName) throws CentralException {
+        for (Supplier supplier : suppliers) {
+            if (supplier.getName() == supplierName) {
+                return supplier;
+            }
+        }
+        throw new CentralException("No supplier with that ID.");
+    }
+
     public void addCustomer(Customer customer) {
         this.customers.add(customer);
     }
@@ -101,7 +110,7 @@ public class Central {
                 return customer;
             }
         }
-        throw new CentralException("No customer with that name.");
+        return null;
     }
 
     public void addOrder(Order order) {

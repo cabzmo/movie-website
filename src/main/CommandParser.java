@@ -8,34 +8,43 @@ import commands.*;
 
 public class CommandParser {
 
-    public static Command parse(String line) throws IOException, CentralException {
+    public static Command parse(String line, BufferedReader br) throws IOException, CentralException {
         try {
             String[] parts = line.split(" ", 4);
             String cmd = parts[0];
 
             if (cmd.equals("addstock")) {
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 System.out.print("Stock Name: ");
                 String stockName = br.readLine();
                 System.out.print("Inventory: ");
                 int inventory = Integer.parseInt(br.readLine());
-                br.close();
+                // br.close();
 
                 return new AddStock(stockName, inventory);
             } else if (cmd.equals("addcustomer")) {
-                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 System.out.print("Name: ");
                 String customerName = br.readLine();
                 System.out.print("Phone number: ");
                 String phone = br.readLine();
-                br.close();
+                // br.close();
 
                 return new AddCustomer(customerName, phone);
+            } else if (cmd.equals("addsupplier")) {
+                // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                System.out.print("Name: ");
+                String supplierName = br.readLine();
+                // br.close();
+
+                return new AddSupplier(supplierName);
             } else if (parts.length == 1) {
                 if (line.equals("liststocks")) {
                     return new ListStocks();
                 } else if (line.equals("listcustomers")) {
                     return new ListCustomers();
+                } else if (line.equals("listsuppliers")) {
+                    return new ListSuppliers();
                 } else if (line.equals("listorders")) {
                     return new ListOrders();
                 } else if (line.equals("help")) {
@@ -50,6 +59,8 @@ public class CommandParser {
                     return new ShowCustomer(id);
                 } else if (cmd.equals("showorder")) {
                     return new ShowOrder(id);
+                } else if (cmd.equals("removecustomer")) {
+                    return new RemoveCustomer(id);
                 }
             } else if (parts.length == 3) {
                 int customerID = Integer.parseInt(parts[1]);
@@ -63,13 +74,21 @@ public class CommandParser {
                     System.out.println("Customer with ID " + customerID + " returning stock with ID " + stockID);
                 }
             } else if (parts.length == 4) {
-                int supplierID = Integer.parseInt(parts[1]);
-                String stockName = parts[2];
-                int inventory = Integer.parseInt(parts[3]);
 
                 if (cmd.equals("add")) {
+                    int supplierID = Integer.parseInt(parts[1]);
+                    String stockName = parts[2];
+                    int inventory = Integer.parseInt(parts[3]);
                     System.out.println("Supplier with ID " + supplierID + " adding stock " + stockName
                             + " of the amount " + inventory);
+                } else if (cmd.equals("changestocksupplier")) {
+                    // System.out.println("Stock with ID " + supplierID + " adding stock " +
+                    // stockName
+                    // + " of the amount " + inventory);
+                    int stockID = Integer.parseInt(parts[1]);
+                    int oldSupplierID = Integer.parseInt(parts[2]);
+                    int newSupplierID = Integer.parseInt(parts[3]);
+                    return new ChangeStockSupplier(stockID, oldSupplierID, newSupplierID);
                 }
             }
         } catch (NumberFormatException ex) {

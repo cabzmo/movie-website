@@ -1,17 +1,25 @@
 Need to do:
 
-    - edit customer and stock to reference orders [DONE]
+    - edit customer and Supplier to reference orders [DONE]
     - customer needs to have an order history similar to statusHistory in RepairTicket [DONE]
     - new Command to complete delivery of order [DONE]
     - Commands:
         - AddStock [DONE]
         - RemoveStock [DONE]
-        - AddSupplier
+        - ListStock
+        - ShowStock with id [DONE]
+        - AddSupplier [DONE]
         - RemoveSupplier
-        - AddCustomer
+        - ListSupplier
+        - ShowSupplier with id
+        - AddCustomer [DONE]
         - RemoveCustomer
+        - ListCustomer
+        - ShowCustomer with id [DONE]
         - MakeOrder [DONE]
-        - CompleteOrder [DONE]
         - RemoveOrder
-
-        testingggg
+        - ListOrder
+        - ShowOrder with id [DONE]
+        - Buy with customerid stockid
+        - Return with customerid stockid
+        - ChangeStockSupplier with stockid supplierid [DONE]

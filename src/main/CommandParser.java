@@ -15,13 +15,15 @@ public class CommandParser {
 
             if (cmd.equals("addstock")) {
                 // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                System.out.print("Supplier id: ");
+                int supplierID = Integer.parseInt(br.readLine());
                 System.out.print("Stock Name: ");
                 String stockName = br.readLine();
                 System.out.print("Inventory: ");
                 int inventory = Integer.parseInt(br.readLine());
                 // br.close();
 
-                return new AddStock(stockName, inventory);
+                return new AddStock(stockName, inventory, supplierID);
             } else if (cmd.equals("addcustomer")) {
                 // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 System.out.print("Name: ");
@@ -59,8 +61,16 @@ public class CommandParser {
                     return new ShowCustomer(id);
                 } else if (cmd.equals("showorder")) {
                     return new ShowOrder(id);
+                } else if (cmd.equals("showsupplier")) {
+                    return new ShowSupplier(id);
+                } else if (cmd.equals("removestock")) {
+                    return new RemoveStock(id);
                 } else if (cmd.equals("removecustomer")) {
                     return new RemoveCustomer(id);
+                } else if (cmd.equals("removeorder")) {
+                    return new RemoveOrder(id);
+                } else if (cmd.equals("removesupplier")) {
+                    return new RemoveSupplier(id);
                 }
             } else if (parts.length == 3) {
                 int customerID = Integer.parseInt(parts[1]);

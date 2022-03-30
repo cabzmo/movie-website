@@ -9,6 +9,7 @@ public class Stock {
     private int id;
     private String name;
     private int inventory;
+    private int supplierID;
     private int amountInBatch;
     private ArrayList<Order> orders = new ArrayList<Order>();
     private Supplier supplier;
@@ -17,6 +18,13 @@ public class Stock {
         this.id = id;
         this.name = name;
         this.inventory = inventory;
+    }
+
+    public Stock(int id, String name, int inventory, int supplierID) {
+        this.id = id;
+        this.name = name;
+        this.inventory = inventory;
+        this.supplierID = supplierID;
     }
 
     public int getID() {
@@ -57,6 +65,14 @@ public class Stock {
             inventory += order.getAmount();
         }
         return inventory;
+    }
+
+    public int getSupplierID() {
+        return this.supplierID;
+    }
+
+    public void setSupplierID(int supplierID) {
+        this.supplierID = supplierID;
     }
 
     public int getAmountInBatch() {

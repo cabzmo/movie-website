@@ -21,25 +21,25 @@ public interface Command {
 
             + "\taddstock                                       add a new stock [DONE]\n"
             + "\tremovestock                                    remove a stock [DONE]\n"
-            + "\tliststocks                                     print all stocks\n"
+            + "\tliststocks                                     print all stocks [DONE]\n"
             + "\tshowstock [stock id]                           show stock details [DONE]\n"
             + "\taddsupplier                                    add a new supplier [DONE]\n"
-            + "\tremovesupplier                                 remove a new supplier\n"
-            + "\tlistsuppliers                                  print all suppliers\n"
-            + "\tshowsupplier [supplier id]                     show supplier details\n"
+            + "\tremovesupplier                                 remove a new supplier [DONE]\n"
+            + "\tlistsuppliers                                  print all suppliers [DONE]\n"
+            + "\tshowsupplier [supplier id]                     show supplier details [DONE]\n"
             + "\taddcustomer                                    add a new customer [DONE]\n"
-            + "\tremovecustomer                                 remove a customer\n"
-            + "\tlistcustomers                                  print all customers\n"
+            + "\tremovecustomer                                 remove a customer [DONE]\n"
+            + "\tlistcustomers                                  print all customers [DONE]\n"
             + "\tshowcustomer [customer id]                     show customer details [DONE]\n"
             + "\tmakeorder [order id]                           make an order request [DONE]\n"
             + "\tcompleteorder [order id]                       complete an order [DONE]\n"
             + "\tremoveorder [order id]                         remove an order [DONE]\n"
-            + "\tlistorders                                     print all orders\n"
+            + "\tlistorders                                     print all orders [DONE]\n"
             + "\tshoworder [order id]                           show order details [DONE]\n"
-            + "\treturnorder [customer id] [order id]           return an order [DONE]\n"
-            + "\tchangestocksupplier [stock id] [supplier id]   change the supplier of a stock [DONE]\n"
-            + "\thelp                                           prints this help message\n"
-            + "\texit                                           exits the program";
+            + "\treturnorder [customer id] [order id]           return an order\n"
+            + "\tchangestocksupplier [stock id] [supplier id]   change the supplier of a stock\n"
+            + "\thelp                                           prints this help message [DONE]\n"
+            + "\texit                                           exits the program [DONE]";
 
     public void execute(Central central) throws CentralException;
 }

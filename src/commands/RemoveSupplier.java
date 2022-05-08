@@ -1,5 +1,7 @@
 package commands;
 
+import java.time.LocalDate;
+
 import main.CentralException;
 import model.Central;
 
@@ -17,7 +19,7 @@ public class RemoveSupplier implements Command {
     }
 
     @Override
-    public void execute(Central central) throws CentralException {
+    public void execute(Central central, LocalDate currentDate) throws CentralException {
 
         if (supplierID != 0) {
             if (central.getSupplierByID(supplierID) != null) {

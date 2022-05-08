@@ -1,23 +1,25 @@
 package commands;
 
+import java.time.LocalDate;
+
 import main.CentralException;
 import model.Central;
 
-public class RemoveStock implements Command {
+public class DeleteStock implements Command {
 
     private int stockID = 0;
     private String stockName;
 
-    public RemoveStock(int stockID) {
+    public DeleteStock(int stockID) {
         this.stockID = stockID;
     }
 
-    public RemoveStock(String stockName) {
+    public DeleteStock(String stockName) {
         this.stockName = stockName;
     }
 
     @Override
-    public void execute(Central central) throws CentralException {
+    public void execute(Central central, LocalDate currentDate) throws CentralException {
 
         if (stockID != 0) {
             if (central.getStockByID(stockID) != null) {

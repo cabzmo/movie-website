@@ -9,7 +9,7 @@ import main.CentralException;
 public class Help implements Command {
 
     @Override
-    public void execute(Central central) throws CentralException {
+    public void execute(Central central, LocalDate currentDate) throws CentralException {
         System.out.println(Command.HELP_MESSAGE);
     }
 }

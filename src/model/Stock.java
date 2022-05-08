@@ -142,6 +142,10 @@ public class Stock {
         this.supplier = supplier;
     }
 
+    public String getDetailsShort() {
+        return "Stock #" + this.id + " - " + this.name;
+    }
+
     @Override
     public String toString() {
         String msg = "";

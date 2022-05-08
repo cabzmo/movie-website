@@ -1,5 +1,7 @@
 package commands;
 
+import java.time.LocalDate;
+
 import main.CentralException;
 import model.Central;
 import model.Customer;
@@ -19,7 +21,7 @@ public class MakeOrder implements Command {
     }
 
     @Override
-    public void execute(Central central) throws CentralException {
+    public void execute(Central central, LocalDate currentDate) throws CentralException {
         int maxOrderID = 0;
         if (central.getOrders().size() > 0) {
             int lastIndex = central.getOrders().size() - 1;

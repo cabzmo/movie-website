@@ -73,15 +73,19 @@ public class CommandParser {
                     return new RemoveSupplier(id);
                 }
             } else if (parts.length == 3) {
-                int customerID = Integer.parseInt(parts[1]);
-                int stockID = Integer.parseInt(parts[2]);
 
                 if (cmd.equals("buy")) {
                     // return new BuyStock(customerID, stockID);
+                    int customerID = Integer.parseInt(parts[1]);
+                    int stockID = Integer.parseInt(parts[2]);
                     System.out.println("Customer with ID " + customerID + " buying stock with ID " + stockID);
-                } else if (cmd.equals("return")) {
+                } else if (cmd.equals("returnorder")) {
                     // return new ReturnStock(customerID, stockID);
-                    System.out.println("Customer with ID " + customerID + " returning stock with ID " + stockID);
+                    int customerID = Integer.parseInt(parts[1]);
+                    int orderID = Integer.parseInt(parts[2]);
+                    // System.out.println("Customer with ID " + customerID + " returning stock with
+                    // ID " + orderID);
+                    return new ReturnOrder(customerID, orderID);
                 }
             } else if (parts.length == 4) {
 

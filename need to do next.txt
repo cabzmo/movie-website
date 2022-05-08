@@ -23,3 +23,6 @@ Need to do:
         - Buy with customerid stockid
         - Return with customerid stockid
         - ChangeStockSupplier with stockid supplierid [DONE]
+
+
+    - Returns with question asking whether item is salvageable or not (drop item or add back to stock list)

@@ -41,7 +41,9 @@ public class CommandParser {
 
                 return new AddSupplier(supplierName);
             } else if (parts.length == 1) {
-                if (line.equals("liststocks")) {
+                if (line.equals("loadgui")) {
+                    return new LoadGUI();
+                } else if (line.equals("liststocks")) {
                     return new ListStocks();
                 } else if (line.equals("listcustomers")) {
                     return new ListCustomers();
@@ -64,7 +66,7 @@ public class CommandParser {
                 } else if (cmd.equals("showsupplier")) {
                     return new ShowSupplier(id);
                 } else if (cmd.equals("removestock")) {
-                    return new RemoveStock(id);
+                    return new DeleteStock(id);
                 } else if (cmd.equals("removecustomer")) {
                     return new RemoveCustomer(id);
                 } else if (cmd.equals("removeorder")) {

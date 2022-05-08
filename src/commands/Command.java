@@ -1,5 +1,7 @@
 package commands;
 
+import java.time.LocalDate;
+
 import main.CentralException;
 import model.Central;
 
@@ -41,5 +43,5 @@ public interface Command {
             + "\thelp                                           prints this help message [DONE]\n"
             + "\texit                                           exits the program [DONE]";
 
-    public void execute(Central central) throws CentralException;
+    public void execute(Central central, LocalDate currentDate) throws CentralException;
 }

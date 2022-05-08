@@ -1,5 +1,7 @@
 package commands;
 
+import java.time.LocalDate;
+
 import main.CentralException;
 import model.Central;
 import model.Order;
@@ -13,7 +15,7 @@ public class CompleteOrder implements Command {
     }
 
     @Override
-    public void execute(Central central) throws CentralException {
+    public void execute(Central central, LocalDate currentDate) throws CentralException {
         order.setDelivered();
     }
 

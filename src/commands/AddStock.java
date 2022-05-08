@@ -1,5 +1,7 @@
 package commands;
 
+import java.time.LocalDate;
+
 import main.CentralException;
 import model.Central;
 import model.Stock;
@@ -22,7 +24,7 @@ public class AddStock implements Command {
     }
 
     @Override
-    public void execute(Central central) throws CentralException {
+    public void execute(Central central, LocalDate currentDate) throws CentralException {
 
         if (central.getSupplierByID(supplierID) != null) {
             if (central.getStockByName(stockName) == null) {

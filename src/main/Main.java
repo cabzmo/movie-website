@@ -3,7 +3,7 @@ package main;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.time.LocalDate;
 
 import commands.Command;
 import data.CentralData;
@@ -28,7 +28,7 @@ public class Main {
             try {
                 // Command command = CommandParser.parse(line);
                 Command command = CommandParser.parse(line, br);
-                command.execute(central);
+                command.execute(central, LocalDate.now());
             } catch (CentralException ex) {
                 System.out.println(ex.getMessage());
             }

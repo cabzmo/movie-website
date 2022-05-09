@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import main.CentralException;
 
@@ -62,6 +63,14 @@ public class Customer {
 
     public ArrayList<Order> getOrders() {
         return this.orders;
+    }
+
+    public ArrayList<Integer> getOrderIDs() {
+        ArrayList<Integer> orderIDs = new ArrayList<Integer>();
+        for (Order order : orders) {
+            orderIDs.add(order.getID());
+        }
+        return orderIDs;
     }
 
     public ArrayList<Order> getAwaitingOrders() {

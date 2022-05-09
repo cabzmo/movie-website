@@ -114,6 +114,14 @@ public class Stock {
         return this.orders;
     }
 
+    public ArrayList<Integer> getOrderIDs() {
+        ArrayList<Integer> orderIDs = new ArrayList<Integer>();
+        for (Order order : orders) {
+            orderIDs.add(order.getID());
+        }
+        return orderIDs;
+    }
+
     public ArrayList<Order> getAwaitingOrders() {
         ArrayList<Order> awaitingOrders = new ArrayList<Order>();
         for (Order order : orders) {

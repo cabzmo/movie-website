@@ -291,8 +291,16 @@ public class MainWindow extends JFrame implements ActionListener {
      * @param id id of the stock
      * @throws CentralException an error with the central
      */
-    public void displayStockDetailsWindow(int id) throws CentralException {
-        // new StockDetailsWindow(this, central.getCustomerByID(id));
+    public void displayOrderDetailsWindowByCustomerID(int id) throws CentralException {
+        new OrderDetailsWindow(this, central.getCustomerByID(id));
+    }
+
+    public void displayOrderDetailsWindowByStockID(int id) throws CentralException {
+        new OrderDetailsWindow(this, central.getStockByID(id));
+    }
+
+    public void displayOrderDetailsWindowBySupplierID(int id) throws CentralException {
+        new OrderDetailsWindow(this, central.getSupplierByID(id));
     }
 
     /**
@@ -305,13 +313,6 @@ public class MainWindow extends JFrame implements ActionListener {
         Object[][] data = new Object[stocksList.size()][5];
         for (int i = 0; i < stocksList.size(); i++) {
             Stock stock = stocksList.get(i);
-            // data[i][0] = stock.getId();
-            // data[i][1] = stock.getTitle();
-            // data[i][2] = stock.getAuthor();
-            // data[i][3] = stock.getPublisher();
-            // data[i][4] = stock.getPublicationYear();
-            // data[i][5] = stock.getStatus();
-
             data[i][0] = stock.getID();
             data[i][1] = stock.getName();
             data[i][2] = stock.getInventory();
@@ -341,10 +342,10 @@ public class MainWindow extends JFrame implements ActionListener {
                     int row = clickedTable.getSelectedRow();
                     int column = clickedTable.getSelectedColumn();
                     Object cell = clickedTable.getModel().getValueAt(row, column);
-                    String title = clickedTable.getModel().getValueAt(row, 0).toString();
-                    if (cell.toString() == "Loaned Out") {
+                    int id = Integer.valueOf(clickedTable.getModel().getValueAt(row, 0).toString());
+                    if (cell.toString().contains("View")) {
                         try {
-                            displayCustomerDetailsWindow(title);
+                            displayOrderDetailsWindowByStockID(id);
                         } catch (CentralException e) {
                             e.printStackTrace();
                         }
@@ -390,7 +391,7 @@ public class MainWindow extends JFrame implements ActionListener {
                     int id = Integer.valueOf(clickedTable.getModel().getValueAt(row, 0).toString());
                     if (cell.toString().contains("View")) {
                         try {
-                            displayStockDetailsWindow(id);
+                            displayOrderDetailsWindowByCustomerID(id);
                         } catch (CentralException e) {
                             e.printStackTrace();
                         }
@@ -402,7 +403,7 @@ public class MainWindow extends JFrame implements ActionListener {
 
     public void displaySuppliers() {
         List<Supplier> suppliersList = central.getSuppliers();
-        String[] columns = new String[] { "ID", "Name", "Stocks" };
+        String[] columns = new String[] { "ID", "Name", "Stocks", "Orders" };
 
         Object[][] data = new Object[suppliersList.size()][4];
         for (int i = 0; i < suppliersList.size(); i++) {
@@ -410,11 +411,17 @@ public class MainWindow extends JFrame implements ActionListener {
             data[i][0] = supplier.getID();
             data[i][1] = supplier.getName();
             if (supplier.getSuppliedStocks().size() == 0) {
+                // data[i][2] = "View (" + supplier.getSuppliedStocks() + ")";
                 data[i][2] = supplier.getSuppliedStocks();
             } else {
+                // data[i][2] = "View (" + supplier.getSuppliedStocks().size() + ")";
                 data[i][2] = supplier.getSuppliedStocks().size();
             }
-
+            int numOfOrders = 0;
+            for (Stock stock : supplier.getSuppliedStocks()) {
+                numOfOrders += stock.getOrders().size();
+            }
+            data[i][3] = "View (" + numOfOrders + ")";
         }
 
         suppliersTable = new JTable(data, columns);
@@ -434,10 +441,10 @@ public class MainWindow extends JFrame implements ActionListener {
                     int row = clickedTable.getSelectedRow();
                     int column = clickedTable.getSelectedColumn();
                     Object cell = clickedTable.getModel().getValueAt(row, column);
-                    String title = clickedTable.getModel().getValueAt(row, 0).toString();
-                    if (cell.toString() == "Stocks") {
+                    int id = Integer.valueOf(clickedTable.getModel().getValueAt(row, 0).toString());
+                    if (cell.toString().contains("View")) {
                         try {
-                            displayCustomerDetailsWindow(title);
+                            displayOrderDetailsWindowBySupplierID(id);
                         } catch (CentralException e) {
                             e.printStackTrace();
                         }

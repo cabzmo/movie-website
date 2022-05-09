@@ -30,8 +30,6 @@ import javax.swing.UIManager;
 public class AddSupplierWindow extends JFrame implements ActionListener {
     private MainWindow mw;
     private JTextField nameText = new JTextField();
-    private JTextField inventoryText = new JTextField();
-    private JTextField supplierIDText = new JTextField();
     private JButton addBtn = new JButton("Add");
     private JButton cancelBtn = new JButton("Cancel");
 
@@ -63,10 +61,6 @@ public class AddSupplierWindow extends JFrame implements ActionListener {
         topPanel.setLayout(new GridLayout(5, 2));
         topPanel.add(new JLabel("Name : "));
         topPanel.add(nameText);
-        topPanel.add(new JLabel("Inventory : "));
-        topPanel.add(inventoryText);
-        topPanel.add(new JLabel("Supplier ID : "));
-        topPanel.add(supplierIDText);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 3));
@@ -105,9 +99,7 @@ public class AddSupplierWindow extends JFrame implements ActionListener {
     private void addSupplier() {
         try {
             String name = nameText.getText();
-            int inventory = Integer.parseInt(inventoryText.getText());
-            int supplierID = Integer.parseInt(supplierIDText.getText());
-            Command addSupplier = new AddSupplier(name, inventory, supplierID);
+            Command addSupplier = new AddSupplier(name);
             addSupplier.execute(mw.getCentral(), LocalDate.now());
             mw.displaySuppliers();
             this.setVisible(false);

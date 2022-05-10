@@ -159,6 +159,11 @@ public class Order {
         }
     }
 
+    public String getDetailsShort() {
+        return "Order #" + this.id + " - " + this.customer.getName() + " - " + this.stock.getName() + " - "
+                + this.amount;
+    }
+
     @Override
     public String toString() {
         String msg = "Order ID: " + this.id + " Customer: " + this.customer.getID() + " Stock: " + this.stock.getID()

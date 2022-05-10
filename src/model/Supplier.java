@@ -61,6 +61,10 @@ public class Supplier {
         }
     }
 
+    public String getDetailsShort() {
+        return "Supplier #" + this.id + " - " + this.name;
+    }
+
     @Override
     public String toString() {
         String msg = "Supplier ID " + this.id + ": " + this.name + "\nStock IDs: ";

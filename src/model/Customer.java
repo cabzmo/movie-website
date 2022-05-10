@@ -93,6 +93,10 @@ public class Customer {
         return completedOrders;
     }
 
+    public String getDetailsShort() {
+        return "Customer #" + this.id + " - " + this.name;
+    }
+
     @Override
     public String toString() {
         String msg = "";

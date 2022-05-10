@@ -150,4 +150,24 @@ public class Central {
         return getCustomerByID(customerID).getOrders();
         // return orders;
     }
+
+    public ArrayList<Order> getReturnableOrders() {
+        ArrayList<Order> returnableOrders = new ArrayList<Order>();
+        for (Order order : this.orders) {
+            if (order.getDelivered() == true) {
+                returnableOrders.add(order);
+            }
+        }
+        return returnableOrders;
+    }
+
+    public ArrayList<Order> getCancellableOrders() {
+        ArrayList<Order> cancellableOrders = new ArrayList<Order>();
+        for (Order order : this.orders) {
+            if (order.getDelivered() == false) {
+                cancellableOrders.add(order);
+            }
+        }
+        return cancellableOrders;
+    }
 }

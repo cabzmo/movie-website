@@ -27,6 +27,14 @@ public class Stock {
         this.supplierID = supplierID;
     }
 
+    public Stock(int id, String name, int inventory, Supplier supplier) {
+        this.id = id;
+        this.name = name;
+        this.inventory = inventory;
+        this.supplierID = supplier.getID();
+        this.supplier = supplier;
+    }
+
     public int getID() {
         return this.id;
     }

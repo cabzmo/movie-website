@@ -1,28 +1,34 @@
 package commands;
 
+import java.time.LocalDate;
+
 import main.CentralException;
 import model.Central;
+import model.Customer;
+import model.Order;
 
 public class ReturnOrder implements Command {
 
-    private int customerID;
-    private int orderID;
+    private int customerID = 0;
+    private int orderID = 0;
 
     public ReturnOrder(int customerID, int orderID) {
         this.customerID = customerID;
         this.orderID = orderID;
     }
 
+    public ReturnOrder(int orderID) {
+        this.orderID = orderID;
+    }
+
     @Override
-    public void execute(Central central) throws CentralException {
-        System.out.println(central.getOrderByID(orderID).getCustomer().getName());
-        System.out.println(customerID);
-        System.out.println(central.getOrderByID(orderID).getCustomer().getID() == customerID);
-        System.out.println();
-        if (central.getOrderByID(orderID).getCustomer().getID() == customerID) {
-            System.out.println("Order " + orderID + " belongs to customer " + customerID);
+    public void execute(Central central, LocalDate currentDate) throws CentralException {
+        Order order = central.getOrderByID(orderID);
+
+        if (order.getDelivered() == true) {
+            order.setReturned();
         } else {
-            throw new CentralException("Order " + orderID + " DOESN'T belong to customer " + customerID);
+            throw new CentralException("Order has not been delivered yet. Try cancelling order");
         }
     }
 }

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import main.CentralException;
 import model.Central;
 import model.Stock;
+import model.Supplier;
 
 public class AddStock implements Command {
 
@@ -23,6 +24,12 @@ public class AddStock implements Command {
         this.supplierID = supplierID;
     }
 
+    public AddStock(String stockName, int inventory, Supplier supplier) {
+        this.stockName = stockName;
+        this.inventory = inventory;
+        this.supplierID = supplier.getID();
+    }
+
     @Override
     public void execute(Central central, LocalDate currentDate) throws CentralException {
 
@@ -35,7 +42,7 @@ public class AddStock implements Command {
                 }
 
                 // Stock stock = new Stock(++maxID, this.stockName, this.inventory);
-                Stock stock = new Stock(++maxID, this.stockName, this.inventory, this.supplierID);
+                Stock stock = new Stock(++maxID, this.stockName, this.inventory, central.getSupplierByID(supplierID));
                 central.addStock(stock);
             } else {
                 throw new CentralException("Stock already exists\tName: " + stockName);

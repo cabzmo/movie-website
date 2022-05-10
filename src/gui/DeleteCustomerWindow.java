@@ -1,4 +1,4 @@
-package bcu.cmp5332.librarysystem.gui;
+package gui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -13,26 +13,25 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import bcu.cmp5332.librarysystem.commands.Command;
-import bcu.cmp5332.librarysystem.commands.DeletePatron;
-import bcu.cmp5332.librarysystem.main.LibraryException;
-import bcu.cmp5332.librarysystem.model.Patron;
+import commands.Command;
+import commands.RemoveCustomer;
+import main.CentralException;
+import model.Customer;
 
 /**
- * Window for a patron to be deleted.
+ * Window for a patron to borrow a customer.
  * 
  * @author Qassim Hassan &amp; Kamil Elmi
  * 
  * @see Command
- * @see DeletePatron
- * @see LibraryException
- * @see Patron
+ * @see RemoveCustomer
+ * @see CentralException
+ * @see Customer
  */
-public class DeletePatronWindow extends JFrame implements ActionListener {
-
+public class DeleteCustomerWindow extends JFrame implements ActionListener {
     private MainWindow mw;
 
-    private JComboBox<String> patronsComboBox;
+    private JComboBox<String> customersComboBox;
     private JButton delBtn = new JButton("Delete");
     private JButton cancelBtn = new JButton("Cancel");
 
@@ -40,7 +39,7 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
      * 
      * @param mw Main GUI window
      */
-    public DeletePatronWindow(MainWindow mw) {
+    public DeleteCustomerWindow(MainWindow mw) {
         this.mw = mw;
         initialize();
     }
@@ -52,17 +51,17 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
 
         }
 
-        setTitle("Delete Book");
+        setTitle("Delete Customer");
 
         setSize(300, 200);
         JPanel topPanel = new JPanel();
-        Patron[] patronsList = mw.getLibrary().getPatrons().toArray(new Patron[0]);
-        String[] booksListString = new String[patronsList.length];
-        for (int x = 0; x < patronsList.length; x++) {
-            booksListString[x] = patronsList[x].getDetailsShort();
+        Customer[] customersList = mw.getCentral().getCustomers().toArray(new Customer[0]);
+        String[] customersListString = new String[customersList.length];
+        for (int x = 0; x < customersList.length; x++) {
+            customersListString[x] = customersList[x].getDetailsShort();
         }
-        patronsComboBox = new JComboBox<String>(booksListString);
-        topPanel.add(patronsComboBox);
+        customersComboBox = new JComboBox<String>(customersListString);
+        topPanel.add(customersComboBox);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 3));
@@ -72,7 +71,7 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
 
         delBtn.addActionListener(this);
         cancelBtn.addActionListener(this);
-        patronsComboBox.addActionListener(this);
+        customersComboBox.addActionListener(this);
 
         this.getContentPane().add(topPanel, BorderLayout.CENTER);
         this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
@@ -86,10 +85,10 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == delBtn) {
             try {
-                deletePatron();
+                deleteCustomer();
             } catch (NumberFormatException e) {
                 e.printStackTrace();
-            } catch (LibraryException e) {
+            } catch (CentralException e) {
                 e.printStackTrace();
             }
         } else if (ae.getSource() == cancelBtn) {
@@ -98,11 +97,11 @@ public class DeletePatronWindow extends JFrame implements ActionListener {
 
     }
 
-    private void deletePatron() throws NumberFormatException, LibraryException {
-        String patronID = patronsComboBox.getSelectedItem().toString().split(" ")[1].replace("#", "");
-        Command deletePatron = new DeletePatron(Integer.valueOf(patronID));
-        deletePatron.execute(mw.getLibrary(), LocalDate.now());
-        mw.displayBooks();
+    private void deleteCustomer() throws NumberFormatException, CentralException {
+        String customerID = customersComboBox.getSelectedItem().toString().split(" ")[1].replace("#", "");
+        Command deleteCustomer = new RemoveCustomer(Integer.valueOf(customerID));
+        deleteCustomer.execute(mw.getCentral(), LocalDate.now());
+        mw.displayCustomers();
         this.setVisible(false);
     }
 

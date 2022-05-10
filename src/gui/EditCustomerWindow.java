@@ -1,8 +1,9 @@
-package bcu.cmp5332.librarysystem.gui;
+package gui;
 
-import bcu.cmp5332.librarysystem.commands.Command;
-import bcu.cmp5332.librarysystem.commands.ReturnBook;
-import bcu.cmp5332.librarysystem.main.LibraryException;
+import commands.EditCustomer;
+import commands.Command;
+import main.CentralException;
+import model.Customer;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -19,28 +20,36 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 /**
- * Window for a patron to return a book.
+ * Window to add a patron to the library.
  * 
  * @author Qassim Hassan &amp; Kamil Elmi
  * 
+ * @see EditCustomer
  * @see Command
- * @see ReturnBook
- * @see LibraryException
+ * @see CentralException
  */
-public class ReturnBookWindow extends JFrame implements ActionListener {
+public class EditCustomerWindow extends JFrame implements ActionListener {
     private MainWindow mw;
-    private JTextField bookIdField = new JTextField();
-    private JTextField patronIdField = new JTextField();
+    private int customerID;
 
-    private JButton returnBtn = new JButton("Return");
+    private JTextField nameText = new JTextField();
+    private JTextField phoneText = new JTextField();
+
+    private JButton editBtn = new JButton("Edit");
     private JButton cancelBtn = new JButton("Cancel");
 
     /**
+     * add patron window
      * 
      * @param mw Main GUI window
+     * @throws CentralException
      */
-    public ReturnBookWindow(MainWindow mw) {
+    public EditCustomerWindow(MainWindow mw, int customerID) throws CentralException {
         this.mw = mw;
+        this.customerID = customerID;
+        Customer customer = mw.getCentral().getCustomerByID(customerID);
+        nameText.setText(customer.getName());
+        phoneText.setText(customer.getPhone());
         initialize();
     }
 
@@ -51,23 +60,23 @@ public class ReturnBookWindow extends JFrame implements ActionListener {
 
         }
 
-        setTitle("Return Book");
+        setTitle("Edit a Customer");
 
         setSize(300, 200);
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(5, 2));
-        topPanel.add(new JLabel("Book ID : "));
-        topPanel.add(bookIdField);
-        topPanel.add(new JLabel("Patron ID : "));
-        topPanel.add(patronIdField);
+        topPanel.add(new JLabel("Name : "));
+        topPanel.add(nameText);
+        topPanel.add(new JLabel("Phone Number : "));
+        topPanel.add(phoneText);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 3));
         bottomPanel.add(new JLabel("     "));
-        bottomPanel.add(returnBtn);
+        bottomPanel.add(editBtn);
         bottomPanel.add(cancelBtn);
 
-        returnBtn.addActionListener(this);
+        editBtn.addActionListener(this);
         cancelBtn.addActionListener(this);
 
         this.getContentPane().add(topPanel, BorderLayout.CENTER);
@@ -78,28 +87,31 @@ public class ReturnBookWindow extends JFrame implements ActionListener {
 
     }
 
-    /** 
-     * @param ae action event 
+    /**
+     * @param ae action event
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == returnBtn) {
-        	returnBook();
+        if (ae.getSource() == editBtn) {
+            editCustomer();
         } else if (ae.getSource() == cancelBtn) {
             this.setVisible(false);
         }
 
     }
 
-    private void returnBook() {
+    private void editCustomer() {
         try {
-            int patronId = Integer.parseInt(patronIdField.getText());
-            int bookId = Integer.parseInt(bookIdField.getText());
-            Command returnBook = new ReturnBook(patronId, bookId);
-            returnBook.execute(mw.getLibrary(), LocalDate.now());
-            mw.displayPatrons();
+            String name = nameText.getText();
+            String phone = phoneText.getText();
+
+            Command editCustomer = new EditCustomer(customerID, name, phone);
+            editCustomer.execute(mw.getCentral(), LocalDate.now());
+
+            mw.displayCustomers();
+
             this.setVisible(false);
-        } catch (LibraryException ex) {
+        } catch (CentralException ex) {
             JOptionPane.showMessageDialog(this, ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }

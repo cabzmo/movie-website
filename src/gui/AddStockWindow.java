@@ -3,6 +3,7 @@ package gui;
 import commands.AddStock;
 import commands.Command;
 import main.CentralException;
+import model.Supplier;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;

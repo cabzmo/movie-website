@@ -3,7 +3,7 @@ package gui;
 import commands.AddToInventory;
 import commands.Command;
 import main.CentralException;
-import model.Supplier;
+import model.Stock;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -58,13 +58,13 @@ public class AddToInventoryWindow extends JFrame implements ActionListener {
 
         }
 
-        setTitle("Add a New Stock");
+        setTitle("Add to Inventory");
 
         setSize(600, 200);
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(3, 2));
         topPanel.add(new JLabel("Stock : "));
-        Supplier[] stocksList = mw.getCentral().getSuppliers().toArray(new Supplier[0]);
+        Stock[] stocksList = mw.getCentral().getStocks().toArray(new Stock[0]);
         String[] stocksListString = new String[stocksList.length];
         for (int x = 0; x < stocksList.length; x++) {
             stocksListString[x] = stocksList[x].getDetailsShort();

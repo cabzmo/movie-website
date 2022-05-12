@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 import commands.Command;
 import commands.ReturnOrder;
@@ -55,13 +56,14 @@ public class ReturnOrderWindow extends JFrame implements ActionListener {
 
         setTitle("Return Order");
 
-        setSize(300, 200);
+        setSize(600, 200);
         JPanel topPanel = new JPanel();
         Order[] ordersList = mw.getCentral().getReturnableOrders().toArray(new Order[0]);
 
         if (ordersList.length == 0) {
             // throw new CentralException("There are no delivered orders to return");
             JOptionPane.showMessageDialog(mw, "There are no delivered orders to return");
+            setVisible(false);
 
         } else {
             String[] ordersListString = new String[ordersList.length];
@@ -72,14 +74,19 @@ public class ReturnOrderWindow extends JFrame implements ActionListener {
             topPanel.add(ordersComboBox);
 
             JPanel bottomPanel = new JPanel();
-            bottomPanel.setLayout(new GridLayout(1, 3));
+            bottomPanel.setLayout(new GridLayout(1, 5));
             bottomPanel.add(new JLabel("     "));
             bottomPanel.add(returnBtn);
+            bottomPanel.add(new JLabel("     "));
             bottomPanel.add(cancelBtn);
+            bottomPanel.add(new JLabel("     "));
 
             returnBtn.addActionListener(this);
             cancelBtn.addActionListener(this);
             ordersComboBox.addActionListener(this);
+
+            topPanel.setBorder(new EmptyBorder(20, 20, 0, 20));
+            bottomPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
             this.getContentPane().add(topPanel, BorderLayout.CENTER);
             this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
@@ -95,10 +102,9 @@ public class ReturnOrderWindow extends JFrame implements ActionListener {
         if (ae.getSource() == returnBtn) {
             try {
                 returnOrder();
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            } catch (CentralException e) {
-                e.printStackTrace();
+            } catch (NumberFormatException | CentralException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                setVisible(false);
             }
         } else if (ae.getSource() == cancelBtn) {
             this.setVisible(false);

@@ -75,14 +75,6 @@ public class Stock {
         return inventory;
     }
 
-    public int getSupplierID() {
-        return this.supplierID;
-    }
-
-    public void setSupplierID(int supplierID) {
-        this.supplierID = supplierID;
-    }
-
     public int getAmountInBatch() {
         return this.amountInBatch;
     }

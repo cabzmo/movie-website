@@ -119,12 +119,15 @@ public class Order {
         if (this.deliveredWhen == null) {
             return null;
         } else {
-            return this.deliveredWhen.getDayOfMonth() + "/"
-                    + this.deliveredWhen.getMonthValue() + "/"
-                    + this.deliveredWhen.getYear() + " "
-                    + this.deliveredWhen.getHour() + ":"
-                    + this.deliveredWhen.getMinute() + ":"
-                    + this.deliveredWhen.getSecond();
+            if (this.deliveredWhen.getHour() < 10) {
+
+            }
+            return dateTimeIntParser(this.deliveredWhen.getDayOfMonth()) + "/"
+                    + dateTimeIntParser(this.deliveredWhen.getMonthValue()) + "/"
+                    + dateTimeIntParser(this.deliveredWhen.getYear()) + " "
+                    + dateTimeIntParser(this.deliveredWhen.getHour()) + ":"
+                    + dateTimeIntParser(this.deliveredWhen.getMinute()) + ":"
+                    + dateTimeIntParser(this.deliveredWhen.getSecond());
         }
     }
 
@@ -150,12 +153,20 @@ public class Order {
         if (this.returnedWhen == null) {
             return null;
         } else {
-            return this.returnedWhen.getDayOfMonth() + "/"
-                    + this.returnedWhen.getMonthValue() + "/"
-                    + this.returnedWhen.getYear() + " "
-                    + this.returnedWhen.getHour() + ":"
-                    + this.returnedWhen.getMinute() + ":"
-                    + this.returnedWhen.getSecond();
+            return dateTimeIntParser(this.returnedWhen.getDayOfMonth()) + "/"
+                    + dateTimeIntParser(this.returnedWhen.getMonthValue()) + "/"
+                    + dateTimeIntParser(this.returnedWhen.getYear()) + " "
+                    + dateTimeIntParser(this.returnedWhen.getHour()) + ":"
+                    + dateTimeIntParser(this.returnedWhen.getMinute()) + ":"
+                    + dateTimeIntParser(this.returnedWhen.getSecond());
+        }
+    }
+
+    public String dateTimeIntParser(int n) {
+        if (n < 10) {
+            return "0" + String.valueOf(n);
+        } else {
+            return String.valueOf(n);
         }
     }
 

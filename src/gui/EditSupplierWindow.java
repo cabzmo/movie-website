@@ -1,8 +1,9 @@
 package gui;
 
-import commands.AddSupplier;
+import commands.EditSupplier;
 import commands.Command;
 import main.CentralException;
+import model.Supplier;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -20,34 +21,37 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 /**
- * Window to add a book to the library.
+ * Window to add a patron to the library.
  * 
  * @author Qassim Hassan &amp; Kamil Elmi
  * 
- * @see AddSupplier
+ * @see EditSupplier
  * @see Command
  * @see CentralException
  */
-public class AddSupplierWindow extends JFrame implements ActionListener {
+public class EditSupplierWindow extends JFrame implements ActionListener {
     private MainWindow mw;
+    private int supplierID;
+
     private JTextField nameText = new JTextField();
-    private JButton addBtn = new JButton("Add");
+
+    private JButton editBtn = new JButton("Edit");
     private JButton cancelBtn = new JButton("Cancel");
 
     /**
-     * add book window
+     * add patron window
      * 
      * @param mw Main GUI window
+     * @throws CentralException
      */
-    public AddSupplierWindow(MainWindow mw) {
+    public EditSupplierWindow(MainWindow mw, int supplierID) throws CentralException {
         this.mw = mw;
+        this.supplierID = supplierID;
+        Supplier supplier = mw.getCentral().getSupplierByID(supplierID);
+        nameText.setText(supplier.getName());
         initialize();
     }
 
-    /**
-     * Initialize the whole window
-     * 
-     */
     private void initialize() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -55,28 +59,23 @@ public class AddSupplierWindow extends JFrame implements ActionListener {
 
         }
 
-        setTitle("Add a New Supplier");
+        setTitle("Edit a Supplier");
 
-        setSize(600, 200);
+        setSize(400, 300);
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new GridLayout(3, 2));
-
-        topPanel.add(new JLabel("     "));
-        topPanel.add(new JLabel("     "));
+        topPanel.setLayout(new GridLayout(5, 2));
         topPanel.add(new JLabel("Name : "));
         topPanel.add(nameText);
-        topPanel.add(new JLabel("     "));
-        topPanel.add(new JLabel("     "));
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 5));
         bottomPanel.add(new JLabel("     "));
-        bottomPanel.add(addBtn);
+        bottomPanel.add(editBtn);
         bottomPanel.add(new JLabel("     "));
         bottomPanel.add(cancelBtn);
         bottomPanel.add(new JLabel("     "));
 
-        addBtn.addActionListener(this);
+        editBtn.addActionListener(this);
         cancelBtn.addActionListener(this);
 
         topPanel.setBorder(new EmptyBorder(20, 20, 0, 20));
@@ -95,28 +94,28 @@ public class AddSupplierWindow extends JFrame implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getSource() == addBtn) {
-            addSupplier();
+        if (ae.getSource() == editBtn) {
+            editSupplier();
         } else if (ae.getSource() == cancelBtn) {
             this.setVisible(false);
         }
 
     }
 
-    /**
-     * add a book
-     * 
-     */
-    private void addSupplier() {
+    private void editSupplier() {
         try {
             String name = nameText.getText();
-            Command addSupplier = new AddSupplier(name);
-            addSupplier.execute(mw.getCentral(), LocalDate.now());
+
+            Command editSupplier = new EditSupplier(supplierID, name);
+            editSupplier.execute(mw.getCentral(), LocalDate.now());
+
             mw.displaySuppliers();
+
             this.setVisible(false);
         } catch (CentralException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             setVisible(false);
         }
     }
+
 }

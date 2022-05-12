@@ -43,6 +43,7 @@ public class AddStock implements Command {
 
                 // Stock stock = new Stock(++maxID, this.stockName, this.inventory);
                 Stock stock = new Stock(++maxID, this.stockName, this.inventory, central.getSupplierByID(supplierID));
+                central.getSupplierByID(supplierID).addSuppliedStock(stock);
                 central.addStock(stock);
             } else {
                 throw new CentralException("Stock already exists\tName: " + stockName);

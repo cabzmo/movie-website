@@ -10,8 +10,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 import commands.Command;
 import commands.DeleteStock;
@@ -53,7 +55,7 @@ public class DeleteStockWindow extends JFrame implements ActionListener {
 
         setTitle("Delete Stock");
 
-        setSize(300, 200);
+        setSize(600, 200);
         JPanel topPanel = new JPanel();
         Stock[] stocksList = mw.getCentral().getStocks().toArray(new Stock[0]);
         String[] stocksListString = new String[stocksList.length];
@@ -64,14 +66,19 @@ public class DeleteStockWindow extends JFrame implements ActionListener {
         topPanel.add(stocksComboBox);
 
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(1, 3));
+        bottomPanel.setLayout(new GridLayout(1, 5));
         bottomPanel.add(new JLabel("     "));
         bottomPanel.add(delBtn);
+        bottomPanel.add(new JLabel("     "));
         bottomPanel.add(cancelBtn);
+        bottomPanel.add(new JLabel("     "));
 
         delBtn.addActionListener(this);
         cancelBtn.addActionListener(this);
         stocksComboBox.addActionListener(this);
+
+        topPanel.setBorder(new EmptyBorder(20, 20, 0, 20));
+        bottomPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         this.getContentPane().add(topPanel, BorderLayout.CENTER);
         this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
@@ -86,10 +93,9 @@ public class DeleteStockWindow extends JFrame implements ActionListener {
         if (ae.getSource() == delBtn) {
             try {
                 deleteStock();
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            } catch (CentralException e) {
-                e.printStackTrace();
+            } catch (NumberFormatException | CentralException ex) {
+                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                setVisible(false);
             }
         } else if (ae.getSource() == cancelBtn) {
             this.setVisible(false);

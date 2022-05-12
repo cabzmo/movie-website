@@ -10,8 +10,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 import commands.Command;
 import commands.DeleteStock;
@@ -58,7 +60,7 @@ public class DeleteSupplierWindow extends JFrame implements ActionListener {
 
         setTitle("Remove Book");
 
-        setSize(300, 200);
+        setSize(600, 200);
         JPanel topPanel = new JPanel();
         Supplier[] suppliersList = mw.getCentral().getSuppliers().toArray(new Supplier[0]);
         String[] suppliersListString = new String[suppliersList.length];
@@ -69,14 +71,19 @@ public class DeleteSupplierWindow extends JFrame implements ActionListener {
         topPanel.add(suppliersComboBox);
 
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(1, 3));
+        bottomPanel.setLayout(new GridLayout(1, 5));
         bottomPanel.add(new JLabel("     "));
         bottomPanel.add(delBtn);
+        bottomPanel.add(new JLabel("     "));
         bottomPanel.add(cancelBtn);
+        bottomPanel.add(new JLabel("     "));
 
         delBtn.addActionListener(this);
         cancelBtn.addActionListener(this);
         suppliersComboBox.addActionListener(this);
+
+        topPanel.setBorder(new EmptyBorder(20, 20, 0, 20));
+        bottomPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         this.getContentPane().add(topPanel, BorderLayout.CENTER);
         this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
@@ -92,92 +99,31 @@ public class DeleteSupplierWindow extends JFrame implements ActionListener {
             String supplierIDString = suppliersComboBox.getSelectedItem().toString().split(" ")[1].replace("#", "");
             int supplierID = Integer.parseInt(supplierIDString);
             if (mw.getCentral().getSupplierByID(supplierID).getSuppliedStocks().size() > 0) {
-                confirm();
+                new ConfirmDeleteSupplierAndStock(mw, supplierID);
+                setVisible(false);
             } else {
                 try {
                     deleteSupplier();
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                } catch (CentralException e) {
-                    e.printStackTrace();
+                    setVisible(false);
+                } catch (NumberFormatException | CentralException ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    setVisible(false);
                 }
             }
         } else if (ae.getSource() == cancelBtn) {
-            this.setVisible(false);
-            mw.displaySuppliers();
-        } else if (ae.getSource() == cancelBtn2) {
-            this.setVisible(false);
-            mw.displaySuppliers();
-        } else if (ae.getSource() == confirmBtn) {
-            try {
-                deleteSupplier();
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            } catch (CentralException e) {
-                e.printStackTrace();
-            }
+            setVisible(false);
         }
 
-    }
-
-    private void confirm() {
-        String supplierID = suppliersComboBox.getSelectedItem().toString().split(" ")[1].replace("#", "");
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ex) {
-
-        }
-
-        setTitle("Are you sure?");
-
-        setSize(300, 200);
-        JPanel topPanel = new JPanel();
-        Supplier[] suppliersList = mw.getCentral().getSuppliers().toArray(new Supplier[0]);
-        String[] suppliersListString = new String[suppliersList.length];
-        for (int x = 0; x < suppliersList.length; x++) {
-            suppliersListString[x] = suppliersList[x].getDetailsShort();
-        }
-        suppliersComboBox = new JComboBox<String>(suppliersListString);
-        JLabel titleField = new JLabel("Are you sure you want to delete stocks too?");
-        String stockListString = "";
-        System.out.println(mw.getCentral().getSupplierByID(Integer.parseInt(supplierID)).getSuppliedStocks());
-        for (Stock stock : mw.getCentral().getSupplierByID(Integer.parseInt(supplierID)).getSuppliedStocks()) {
-            stockListString += stock.getDetailsShort() + "\n";
-        }
-        JLabel stockListField = new JLabel(stockListString);
-        topPanel.add(titleField);
-        topPanel.add(stockListField);
-
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(1, 3));
-        bottomPanel.add(new JLabel("     "));
-        bottomPanel.add(confirmBtn);
-        bottomPanel.add(cancelBtn2);
-
-        delBtn.addActionListener(this);
-        cancelBtn.addActionListener(this);
-        suppliersComboBox.addActionListener(this);
-
-        this.getContentPane().add(topPanel, BorderLayout.CENTER);
-        this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
-        setLocationRelativeTo(mw);
-
-        setVisible(true);
     }
 
     private void deleteSupplier() throws NumberFormatException, CentralException {
         String supplierID = suppliersComboBox.getSelectedItem().toString().split(" ")[1].replace("#", "");
 
-        if (mw.getCentral().getSupplierByID(Integer.valueOf(supplierID)).getSuppliedStocks().size() > 0) {
-            for (Stock stock : mw.getCentral().getSupplierByID(Integer.valueOf(supplierID)).getSuppliedStocks()) {
-                new DeleteStock(stock.getName()).execute(mw.getCentral(), LocalDate.now());
-            }
-        }
-
         Command deleteSupplier = new RemoveSupplier(Integer.valueOf(supplierID));
         deleteSupplier.execute(mw.getCentral(), LocalDate.now());
         mw.displaySuppliers();
         this.setVisible(false);
+
     }
 
 }

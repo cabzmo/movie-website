@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Window to add a patron to the library.
@@ -62,7 +63,7 @@ public class EditCustomerWindow extends JFrame implements ActionListener {
 
         setTitle("Edit a Customer");
 
-        setSize(300, 200);
+        setSize(400, 300);
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(5, 2));
         topPanel.add(new JLabel("Name : "));
@@ -71,13 +72,18 @@ public class EditCustomerWindow extends JFrame implements ActionListener {
         topPanel.add(phoneText);
 
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(1, 3));
+        bottomPanel.setLayout(new GridLayout(1, 5));
         bottomPanel.add(new JLabel("     "));
         bottomPanel.add(editBtn);
+        bottomPanel.add(new JLabel("     "));
         bottomPanel.add(cancelBtn);
+        bottomPanel.add(new JLabel("     "));
 
         editBtn.addActionListener(this);
         cancelBtn.addActionListener(this);
+
+        topPanel.setBorder(new EmptyBorder(20, 20, 0, 20));
+        bottomPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         this.getContentPane().add(topPanel, BorderLayout.CENTER);
         this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
@@ -112,7 +118,8 @@ public class EditCustomerWindow extends JFrame implements ActionListener {
 
             this.setVisible(false);
         } catch (CentralException ex) {
-            JOptionPane.showMessageDialog(this, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            setVisible(false);
         }
     }
 

@@ -1,14 +1,5 @@
 package gui;
 
-import data.CentralData;
-import main.CentralException;
-import model.Stock;
-import model.Supplier;
-import model.Central;
-import model.Customer;
-import model.Order;
-
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -16,19 +7,23 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import data.CentralData;
+import main.CentralException;
+import model.Central;
+import model.Customer;
+import model.Order;
+import model.Stock;
+import model.Supplier;
 
 /**
  * Main GUI window
@@ -54,23 +49,19 @@ public class MainWindow extends JFrame implements ActionListener {
     private JMenuItem stocksView;
     private JMenuItem stocksInvAdd;
     private JMenuItem stocksAdd;
-    private JMenuItem stocksEdit;
     private JMenuItem stocksDel;
 
     private JMenuItem cusView;
     private JMenuItem cusAdd;
-    private JMenuItem cusEdit;
     private JMenuItem cusDel;
 
     private JMenuItem supView;
     private JMenuItem supAdd;
-    private JMenuItem supEdit;
     private JMenuItem supDel;
 
     private JMenuItem orderView;
     private JMenuItem orderAdd;
-    private JMenuItem orderEdit;
-    private JMenuItem orderDel;
+    private JMenuItem orderDeliver;
     private JMenuItem orderCancel;
     private JMenuItem orderReturn;
 
@@ -78,8 +69,6 @@ public class MainWindow extends JFrame implements ActionListener {
     private JTable customersTable;
     private JTable suppliersTable;
     private JTable ordersTable;
-
-    private JLabel tableTitle;
 
     private Central central;
 
@@ -92,6 +81,7 @@ public class MainWindow extends JFrame implements ActionListener {
         initialize();
         this.central = central;
         displayOrders();
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -135,12 +125,10 @@ public class MainWindow extends JFrame implements ActionListener {
         stocksView = new JMenuItem("View");
         stocksInvAdd = new JMenuItem("Add to Inventory");
         stocksAdd = new JMenuItem("Add new Stock");
-        stocksEdit = new JMenuItem("Edit");
         stocksDel = new JMenuItem("Delete");
         stocksMenu.add(stocksView);
         stocksMenu.add(stocksInvAdd);
         stocksMenu.add(stocksAdd);
-        stocksMenu.add(stocksEdit);
         stocksMenu.add(stocksDel);
         for (int i = 0; i < stocksMenu.getItemCount(); i++) {
             stocksMenu.getItem(i).addActionListener(this);
@@ -153,12 +141,10 @@ public class MainWindow extends JFrame implements ActionListener {
 
         cusView = new JMenuItem("View");
         cusAdd = new JMenuItem("Add");
-        cusEdit = new JMenuItem("Edit");
         cusDel = new JMenuItem("Delete");
 
         customersMenu.add(cusView);
         customersMenu.add(cusAdd);
-        customersMenu.add(cusEdit);
         customersMenu.add(cusDel);
 
         cusView.addActionListener(this);
@@ -172,17 +158,14 @@ public class MainWindow extends JFrame implements ActionListener {
 
         supView = new JMenuItem("View");
         supAdd = new JMenuItem("Add");
-        supEdit = new JMenuItem("Edit");
         supDel = new JMenuItem("Delete");
 
         suppliersMenu.add(supView);
         suppliersMenu.add(supAdd);
-        suppliersMenu.add(supEdit);
         suppliersMenu.add(supDel);
 
         supView.addActionListener(this);
         supAdd.addActionListener(this);
-        supEdit.addActionListener(this);
         supDel.addActionListener(this);
 
         // Orders
@@ -190,17 +173,15 @@ public class MainWindow extends JFrame implements ActionListener {
         ordersMenu = new JMenu("Orders");
         menuBar.add(ordersMenu);
 
-        orderView = new JMenuItem("View");
-        orderAdd = new JMenuItem("Add");
-        orderEdit = new JMenuItem("Edit");
-        orderDel = new JMenuItem("Delete");
-        orderCancel = new JMenuItem("Cancel");
-        orderReturn = new JMenuItem("Return");
+        orderView = new JMenuItem("View Orders");
+        orderAdd = new JMenuItem("Make Order");
+        orderDeliver = new JMenuItem("Deliver Order");
+        orderCancel = new JMenuItem("Cancel an Order");
+        orderReturn = new JMenuItem("Return an Order");
 
         ordersMenu.add(orderView);
         ordersMenu.add(orderAdd);
-        ordersMenu.add(orderEdit);
-        ordersMenu.add(orderDel);
+        ordersMenu.add(orderDeliver);
         ordersMenu.add(orderCancel);
         ordersMenu.add(orderReturn);
 
@@ -235,7 +216,7 @@ public class MainWindow extends JFrame implements ActionListener {
             try {
                 CentralData.store(central);
             } catch (IOException | CentralException e) {
-                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
             System.exit(0);
 
@@ -248,25 +229,20 @@ public class MainWindow extends JFrame implements ActionListener {
         } else if (ae.getSource() == stocksDel) {
             new DeleteStockWindow(this);
 
-        } else if (ae.getSource() == stocksEdit) {
-
         } else if (ae.getSource() == stocksInvAdd) {
-
+            displayStocks();
+            new AddToInventoryWindow(this);
         } else if (ae.getSource() == cusView) {
             displayCustomers();
 
         } else if (ae.getSource() == cusAdd) {
             new AddCustomerWindow(this);
 
-        } else if (ae.getSource() == cusEdit) {
-
         } else if (ae.getSource() == cusDel) {
             new DeleteCustomerWindow(this);
 
         } else if (ae.getSource() == supAdd) {
             new AddSupplierWindow(this);
-
-        } else if (ae.getSource() == supEdit) {
 
         } else if (ae.getSource() == supDel) {
             new DeleteSupplierWindow(this);
@@ -277,12 +253,11 @@ public class MainWindow extends JFrame implements ActionListener {
         } else if (ae.getSource() == orderAdd) {
             new MakeOrderWindow(this);
 
-        } else if (ae.getSource() == orderEdit) {
+        } else if (ae.getSource() == orderDeliver) {
+            new CompleteOrderWindow(this);
 
         } else if (ae.getSource() == orderCancel) {
             new CancelOrderWindow(this);
-
-        } else if (ae.getSource() == orderDel) {
 
         } else if (ae.getSource() == orderReturn) {
             new ReturnOrderWindow(this);
@@ -329,6 +304,26 @@ public class MainWindow extends JFrame implements ActionListener {
         new EditCustomerWindow(this, id);
     }
 
+    public void editStockWindow(int id) throws CentralException {
+        new EditStockWindow(this, id);
+    }
+
+    public void editSupplierWindow(int id) throws CentralException {
+        new EditSupplierWindow(this, id);
+    }
+
+    public void editOrderWindow(int id) throws CentralException {
+        new EditOrderWindow(this, id);
+    }
+
+    public void showStockDetails(int id) throws CentralException {
+        new ShowStockDetailsWindow(this, id);
+    }
+
+    public void showCustomerDetails(int id) throws CentralException {
+        new ShowCustomerDetailsWindow(this, id);
+    }
+
     /**
      * Displays stocks in the main window
      */
@@ -356,13 +351,6 @@ public class MainWindow extends JFrame implements ActionListener {
 
             }
 
-            // JPanel topPanel = new JPanel();
-            // JPanel bottomPanel = new JPanel();
-
-            // topPanel.setBorder(BorderFactory.createTitledBorder(
-            // BorderFactory.createEtchedBorder(), "My Demo Table", TitledBorder.LEFT,
-            // TitledBorder.TOP));
-
             stocksTable = new JTable(data, columns);
 
             stocksTable.setModel(new DefaultTableModel(data, columns) {
@@ -372,7 +360,6 @@ public class MainWindow extends JFrame implements ActionListener {
                 }
             });
             this.getContentPane().removeAll();
-            // this.getContentPane().add(scrollPane);
             this.getContentPane().add(new JScrollPane(stocksTable));
             this.revalidate();
             stocksTable.addMouseListener(new MouseAdapter() {
@@ -387,7 +374,13 @@ public class MainWindow extends JFrame implements ActionListener {
                             try {
                                 displayOrderDetailsWindowByStockID(id);
                             } catch (CentralException e) {
-                                e.printStackTrace();
+                                exceptionHandler(e);
+                            }
+                        } else {
+                            try {
+                                editStockWindow(id);
+                            } catch (CentralException e) {
+                                exceptionHandler(e);
                             }
                         }
                     }
@@ -439,13 +432,13 @@ public class MainWindow extends JFrame implements ActionListener {
                             try {
                                 displayOrderDetailsWindowByCustomerID(id);
                             } catch (CentralException e) {
-                                e.printStackTrace();
+                                exceptionHandler(e);
                             }
                         } else {
                             try {
                                 editCustomerWindow(id);
                             } catch (CentralException e) {
-                                e.printStackTrace();
+                                exceptionHandler(e);
                             }
                         }
                     }
@@ -468,13 +461,7 @@ public class MainWindow extends JFrame implements ActionListener {
                 Supplier supplier = suppliersList.get(i);
                 data[i][0] = supplier.getID();
                 data[i][1] = supplier.getName();
-                if (supplier.getSuppliedStocks().size() == 0) {
-                    // data[i][2] = "View (" + supplier.getSuppliedStocks() + ")";
-                    data[i][2] = supplier.getSuppliedStocks();
-                } else {
-                    // data[i][2] = "View (" + supplier.getSuppliedStocks().size() + ")";
-                    data[i][2] = supplier.getSuppliedStocks().size();
-                }
+                data[i][2] = supplier.getSuppliedStocks().size();
                 int numOfOrders = 0;
                 for (Stock stock : supplier.getSuppliedStocks()) {
                     numOfOrders += stock.getOrders().size();
@@ -504,7 +491,13 @@ public class MainWindow extends JFrame implements ActionListener {
                             try {
                                 displayOrderDetailsWindowBySupplierID(id);
                             } catch (CentralException e) {
-                                e.printStackTrace();
+                                exceptionHandler(e);
+                            }
+                        } else {
+                            try {
+                                editSupplierWindow(id);
+                            } catch (CentralException e) {
+                                exceptionHandler(e);
                             }
                         }
                     }
@@ -550,7 +543,44 @@ public class MainWindow extends JFrame implements ActionListener {
             this.getContentPane().removeAll();
             this.getContentPane().add(new JScrollPane(ordersTable));
             this.revalidate();
+            ordersTable.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent event) {
+                    if (event.getClickCount() == 2) {
+                        JTable clickedTable = (JTable) event.getSource();
+                        int row = clickedTable.getSelectedRow();
+                        int column = clickedTable.getSelectedColumn();
+                        int id = Integer.valueOf(clickedTable.getModel().getValueAt(row, 0).toString());
+                        if (column == 1) {
+                            try {
+                                String customerName = clickedTable.getModel().getValueAt(row, column).toString();
+                                int customerID = central.getCustomerByName(customerName).getID();
+                                showCustomerDetails(customerID);
+                            } catch (CentralException e) {
+                                exceptionHandler(e);
+                            }
+                        } else if (column == 2) {
+                            try {
+                                String stockName = clickedTable.getModel().getValueAt(row, column).toString();
+                                int stockID = central.getStockByName(stockName).getID();
+                                showStockDetails(stockID);
+                            } catch (CentralException e) {
+                                exceptionHandler(e);
+                            }
+                        } else {
+                            try {
+                                editOrderWindow(id);
+                            } catch (CentralException e) {
+                                exceptionHandler(e);
+                            }
+                        }
+                    }
+                }
+            });
         }
+    }
+
+    public void exceptionHandler(CentralException ex) {
+        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
 
 }

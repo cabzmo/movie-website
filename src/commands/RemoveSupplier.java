@@ -24,11 +24,10 @@ public class RemoveSupplier implements Command {
         if (supplierID != 0) {
             if (central.getSupplierByID(supplierID) != null) {
                 if (central.getSupplierByID(supplierID).getSuppliedStocks().size() > 0) {
-                    central.removeSupplier(central.getSupplierByID(supplierID));
-                } else {
                     throw new CentralException("Supplier cannot be deleted, supplier has stocks connected");
+                } else {
+                    central.removeSupplier(central.getSupplierByID(supplierID));
                 }
-                central.removeSupplier(central.getSupplierByID(supplierID));
             } else {
                 throw new CentralException("No supplier found\tID: " + supplierID);
             }

@@ -106,7 +106,7 @@ public class Central {
 
     public Customer getCustomerByName(String customerName) throws CentralException {
         for (Customer customer : customers) {
-            if (customer.getName() == customerName) {
+            if (customer.getName().equals(customerName)) {
                 return customer;
             }
         }
@@ -154,7 +154,7 @@ public class Central {
     public ArrayList<Order> getReturnableOrders() {
         ArrayList<Order> returnableOrders = new ArrayList<Order>();
         for (Order order : this.orders) {
-            if (order.getDelivered() == true) {
+            if ((order.getDelivered() == true) && (order.getReturned() == false)) {
                 returnableOrders.add(order);
             }
         }

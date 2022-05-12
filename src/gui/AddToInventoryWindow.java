@@ -1,8 +1,9 @@
 package gui;
 
-import commands.AddSupplier;
+import commands.AddToInventory;
 import commands.Command;
 import main.CentralException;
+import model.Supplier;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -11,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,13 +26,14 @@ import javax.swing.border.EmptyBorder;
  * 
  * @author Qassim Hassan &amp; Kamil Elmi
  * 
- * @see AddSupplier
+ * @see AddStock
  * @see Command
  * @see CentralException
  */
-public class AddSupplierWindow extends JFrame implements ActionListener {
+public class AddToInventoryWindow extends JFrame implements ActionListener {
     private MainWindow mw;
-    private JTextField nameText = new JTextField();
+    private JComboBox<String> stocksComboBox;
+    private JTextField amountText = new JTextField();
     private JButton addBtn = new JButton("Add");
     private JButton cancelBtn = new JButton("Cancel");
 
@@ -39,7 +42,7 @@ public class AddSupplierWindow extends JFrame implements ActionListener {
      * 
      * @param mw Main GUI window
      */
-    public AddSupplierWindow(MainWindow mw) {
+    public AddToInventoryWindow(MainWindow mw) {
         this.mw = mw;
         initialize();
     }
@@ -55,18 +58,23 @@ public class AddSupplierWindow extends JFrame implements ActionListener {
 
         }
 
-        setTitle("Add a New Supplier");
+        setTitle("Add a New Stock");
 
         setSize(600, 200);
         JPanel topPanel = new JPanel();
         topPanel.setLayout(new GridLayout(3, 2));
-
-        topPanel.add(new JLabel("     "));
-        topPanel.add(new JLabel("     "));
-        topPanel.add(new JLabel("Name : "));
-        topPanel.add(nameText);
-        topPanel.add(new JLabel("     "));
-        topPanel.add(new JLabel("     "));
+        topPanel.add(new JLabel("Stock : "));
+        Supplier[] stocksList = mw.getCentral().getSuppliers().toArray(new Supplier[0]);
+        String[] stocksListString = new String[stocksList.length];
+        for (int x = 0; x < stocksList.length; x++) {
+            stocksListString[x] = stocksList[x].getDetailsShort();
+        }
+        stocksComboBox = new JComboBox<String>(stocksListString);
+        topPanel.add(stocksComboBox);
+        topPanel.add(new JLabel());
+        topPanel.add(new JLabel());
+        topPanel.add(new JLabel("Amount : "));
+        topPanel.add(amountText);
 
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(1, 5));
@@ -96,7 +104,7 @@ public class AddSupplierWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == addBtn) {
-            addSupplier();
+            addStock();
         } else if (ae.getSource() == cancelBtn) {
             this.setVisible(false);
         }
@@ -107,12 +115,13 @@ public class AddSupplierWindow extends JFrame implements ActionListener {
      * add a book
      * 
      */
-    private void addSupplier() {
+    private void addStock() {
         try {
-            String name = nameText.getText();
-            Command addSupplier = new AddSupplier(name);
-            addSupplier.execute(mw.getCentral(), LocalDate.now());
-            mw.displaySuppliers();
+            String stockIDString = stocksComboBox.getSelectedItem().toString().split(" ")[1].replace("#", "");
+            int amount = Integer.parseInt(amountText.getText());
+            Command addToInventory = new AddToInventory(Integer.valueOf(stockIDString), amount);
+            addToInventory.execute(mw.getCentral(), LocalDate.now());
+            mw.displayStocks();
             this.setVisible(false);
         } catch (CentralException ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 import main.CentralException;
 import model.Order;
@@ -67,7 +68,7 @@ public class OrderDetailsWindow extends JFrame implements ActionListener {
 
         setTitle("Order Details");
 
-        setSize(300, 200);
+        setSize(600, 200);
         JPanel topPanel = new JPanel();
         this.getContentPane().add(topPanel, BorderLayout.CENTER);
         setLocationRelativeTo(mw);
@@ -102,18 +103,35 @@ public class OrderDetailsWindow extends JFrame implements ActionListener {
 
         // List<Order> ordersList = customer.getOrders();
         if (ordersList.size() > 0) {
-            String[] columns = new String[] { "ID", "Customer", "Stock", "Amount" };
+            String[] columns = new String[] { "ID", "Customer", "Stock", "Amount", "Delivered", "Returned" };
 
-            Object[][] data = new Object[ordersList.size()][4];
+            Object[][] data = new Object[ordersList.size()][6];
             for (int i = 0; i < ordersList.size(); i++) {
                 Order order = ordersList.get(i);
                 data[i][0] = order.getID();
                 data[i][1] = order.getCustomer().getName();
                 data[i][2] = order.getStock().getName();
                 data[i][3] = order.getAmount();
+                if (order.getDelivered() == false) {
+                    data[i][4] = "No";
+                } else {
+                    data[i][4] = "Yes";
+                }
+                if (order.getReturned() == false) {
+                    data[i][5] = "No";
+                } else {
+                    data[i][5] = "Yes";
+                }
             }
 
             JTable table = new JTable(data, columns);
+
+            table.setModel(new DefaultTableModel(data, columns) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            });
             this.getContentPane().removeAll();
             this.getContentPane().add(new JScrollPane(table));
             this.revalidate();

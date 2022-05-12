@@ -18,21 +18,36 @@ public class AddCustomer implements Command {
 
     @Override
     public void execute(Central central, LocalDate currentDate) throws CentralException {
-
-        try {
-            if (central.getCustomerByName(customerName) == null) {
-                int maxID = 0;
-                if (central.getCustomers().size() > 0) {
-                    int lastIndex = central.getCustomers().size() - 1;
-                    maxID = central.getCustomers().get(lastIndex).getID();
-                }
-
-                Customer customer = new Customer(++maxID, customerName, phone);
-                central.addCustomer(customer);
+        System.out.println(customerName);
+        System.out.println(central.getCustomerByName(customerName));
+        if (central.getCustomerByName(customerName) == null) {
+            int maxID = 0;
+            if (central.getCustomers().size() > 0) {
+                int lastIndex = central.getCustomers().size() - 1;
+                maxID = central.getCustomers().get(lastIndex).getID();
             }
-        } catch (Exception e) {
+
+            Customer customer = new Customer(++maxID, customerName, phone);
+            central.addCustomer(customer);
+        } else {
             throw new CentralException("Customer already exists\t Customer Name: " + customerName);
         }
+
+        // try {
+        // if (central.getCustomerByName(customerName) == null) {
+        // int maxID = 0;
+        // if (central.getCustomers().size() > 0) {
+        // int lastIndex = central.getCustomers().size() - 1;
+        // maxID = central.getCustomers().get(lastIndex).getID();
+        // }
+
+        // Customer customer = new Customer(++maxID, customerName, phone);
+        // central.addCustomer(customer);
+        // }
+        // } catch (Exception e) {
+        // throw new CentralException("Customer already exists\t Customer Name: " +
+        // customerName);
+        // }
 
     }
 

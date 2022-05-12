@@ -12,12 +12,14 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Window to add a book to the library.
@@ -32,7 +34,7 @@ public class AddStockWindow extends JFrame implements ActionListener {
     private MainWindow mw;
     private JTextField nameText = new JTextField();
     private JTextField inventoryText = new JTextField();
-    private JTextField supplierIDText = new JTextField();
+    private JComboBox<String> suppliersComboBox;
     private JButton addBtn = new JButton("Add");
     private JButton cancelBtn = new JButton("Cancel");
 
@@ -59,24 +61,39 @@ public class AddStockWindow extends JFrame implements ActionListener {
 
         setTitle("Add a New Stock");
 
-        setSize(300, 200);
+        setSize(600, 300);
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new GridLayout(5, 2));
+        topPanel.setLayout(new GridLayout(6, 2));
         topPanel.add(new JLabel("Name : "));
         topPanel.add(nameText);
+        topPanel.add(new JLabel());
+        topPanel.add(new JLabel());
         topPanel.add(new JLabel("Inventory : "));
         topPanel.add(inventoryText);
-        topPanel.add(new JLabel("Supplier ID : "));
-        topPanel.add(supplierIDText);
+        topPanel.add(new JLabel());
+        topPanel.add(new JLabel());
+        topPanel.add(new JLabel("Supplier : "));
+        Supplier[] suppliersList = mw.getCentral().getSuppliers().toArray(new Supplier[0]);
+        String[] suppliersListString = new String[suppliersList.length];
+        for (int x = 0; x < suppliersList.length; x++) {
+            suppliersListString[x] = suppliersList[x].getDetailsShort();
+        }
+        suppliersComboBox = new JComboBox<String>(suppliersListString);
+        topPanel.add(suppliersComboBox);
 
         JPanel bottomPanel = new JPanel();
-        bottomPanel.setLayout(new GridLayout(1, 3));
+        bottomPanel.setLayout(new GridLayout(1, 5));
         bottomPanel.add(new JLabel("     "));
         bottomPanel.add(addBtn);
+        bottomPanel.add(new JLabel("     "));
         bottomPanel.add(cancelBtn);
+        bottomPanel.add(new JLabel("     "));
 
         addBtn.addActionListener(this);
         cancelBtn.addActionListener(this);
+
+        topPanel.setBorder(new EmptyBorder(20, 20, 0, 20));
+        bottomPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         this.getContentPane().add(topPanel, BorderLayout.CENTER);
         this.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
@@ -107,13 +124,14 @@ public class AddStockWindow extends JFrame implements ActionListener {
         try {
             String name = nameText.getText();
             int inventory = Integer.parseInt(inventoryText.getText());
-            int supplierID = Integer.parseInt(supplierIDText.getText());
-            Command addStock = new AddStock(name, inventory, supplierID);
+            String supplierIDString = suppliersComboBox.getSelectedItem().toString().split(" ")[1].replace("#", "");
+            Command addStock = new AddStock(name, inventory, Integer.valueOf(supplierIDString));
             addStock.execute(mw.getCentral(), LocalDate.now());
             mw.displayStocks();
             this.setVisible(false);
         } catch (CentralException ex) {
-            JOptionPane.showMessageDialog(this, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            setVisible(false);
         }
     }
 }

@@ -34,7 +34,7 @@ public class CancelOrderWindow extends JFrame implements ActionListener {
     private MainWindow mw;
 
     private JComboBox<String> ordersComboBox;
-    private JButton cancelOrderBtn = new JButton("Cancel");
+    private JButton cancelOrderBtn = new JButton("Delete Order");
     private JButton cancelBtn = new JButton("Cancel");
 
     /**

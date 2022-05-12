@@ -105,8 +105,13 @@ public class DeleteStockWindow extends JFrame implements ActionListener {
 
     private void deleteStock() throws NumberFormatException, CentralException {
         String stockID = stocksComboBox.getSelectedItem().toString().split(" ")[1].replace("#", "");
-        Command deleteStock = new DeleteStock(Integer.valueOf(stockID));
-        deleteStock.execute(mw.getCentral(), LocalDate.now());
+        if (mw.getCentral().getStockByID(Integer.valueOf(stockID)).getOrders().size() > 0) {
+            throw new CentralException("Order(s) are connected to stock. Cannot delete stock");
+        } else {
+            Command deleteStock = new DeleteStock(Integer.valueOf(stockID));
+            deleteStock.execute(mw.getCentral(), LocalDate.now());
+        }
+
         mw.displayStocks();
         this.setVisible(false);
     }
